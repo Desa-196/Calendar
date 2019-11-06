@@ -1,0 +1,304 @@
+﻿<Window x:Class="Calendar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calendar"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="633.5" Width="1100" Icon="pack://siteoforigin:,,,/Resources/icon.ico">
+    <Window.Resources>
+        <ControlTemplate x:Key="button_template_circle" TargetType="Button">
+            <Border x:Name="Bor" CornerRadius="15" BorderBrush="#FFC3C3C3" BorderThickness="1" Background="Transparent">
+                <Image Source="Resources/Button_img.png" RenderTransformOrigin="0.5,0.5" Height="10" Width="18">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="180"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="Bor" Property="BorderThickness" Value="2"></Setter>
+                </Trigger>
+                <Trigger Property="IsPressed"  Value="true">
+                    <Setter TargetName="Bor" Property="Background" Value="#FFE2E2E2"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+
+        </ControlTemplate>
+        <ContextMenu x:Key="ConMenu">
+            <MenuItem Header="Отметить как отпуск" Click="MenuItem_Click_Otpusk"/>
+            <MenuItem Header="Отметить как рабочий" Click="MenuItem_Click_Work_Day"/>
+            <MenuItem Header="Вернуть в соответствие граффику" Click="MenuItem_Click_Cancel"/>
+         </ContextMenu>
+
+        <Style x:Key="Style_text_day_of_the_week">
+            <Style.Setters>
+                <Setter Property="Control.HorizontalAlignment" Value="Center"/>
+                <Setter Property="Control.VerticalAlignment" Value="Center"/>
+                <Setter Property="Control.Foreground" Value="White"/>
+            </Style.Setters>
+        </Style>
+        <DataTemplate DataType="{x:Type local:Day}">
+            <Border Name="Border" BorderThickness="0" BorderBrush="#688a89">
+                <Grid Name="Day_StackPanel">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid  Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="day_number" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" FontSize="27" FontFamily="Segoe UI Semilight" Text="{Binding Path=Data_index.Day}" />
+                        <TextBlock Name="type_day" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=Type_day}"/>
+                    </Grid>
+                    <Grid  Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock  Name="Time_of_arrival" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,10,0,0" FontSize="10" Foreground="#FF571212" Text="{Binding Path=Text_block_1}"/>
+                        <TextBlock Name="Leaving_time" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,1,5,2" FontSize="10" Foreground="#FF1E5319" Text="{Binding Path=Text_block_2}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=IsWork}" Value="false">
+                    <Setter TargetName="type_day" Property="Text" Value="Выходной" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="Green" />
+                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFE4F0EF" />
+                    <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
+                    <Setter TargetName="Leaving_time" Property="Text" Value="" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Is_now_day}" Value="true">
+                    <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsWork}" Value="true">
+                    <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="Red" />
+                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFF0E8E2" />
+                </DataTrigger>
+                <!--Если отображается день не из текущего выбранного месяца-->
+                <DataTrigger Binding="{Binding Path=day_is_now_month}" Value="false">
+                    <Setter TargetName="Day_StackPanel" Property="Control.Opacity" Value="0.5" />
+                </DataTrigger>
+                
+                <DataTrigger Binding="{Binding Path=Type_day}" Value="1">
+                    <Setter TargetName="type_day" Property="Text" Value="Отпуск" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="#FF0074FF" />
+                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFB6D6FD" />
+                </DataTrigger>
+                
+                <DataTrigger Binding="{Binding Path=Type_day}" Value="2">
+                    <Setter TargetName="type_day" Property="Text" Value="Отработка" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="#FF430093" />
+                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFE2ACFB" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:NowDay}">
+            <Border Name="Border" BorderThickness="2" BorderBrush="#688a89">
+                <Grid Name="Day_StackPanel">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Name="day_number" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0" FontSize="27" FontFamily="Segoe UI Semilight" Text="{Binding Path=Data_index.Day}" />
+
+                        <StackPanel x:Name="SP" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                            <TextBlock ToolTip="{Binding Path=Info_text_block_1}"  Name="Time_of_arrival"  HorizontalAlignment="Left" Margin="5,5,0,0" FontSize="10" Foreground="#FF571212" Text="{Binding Path=Text_block_1}"  Opacity="{Binding Path=Text_block_1_opacity}"/>
+                            <TextBlock ToolTip="{Binding Path=Info_text_block_2}" Name="Leaving_time" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,0,0,0" FontSize="10" Foreground="#FF1E5319" Text="{Binding Path=Text_block_2}"  Opacity="{Binding Path=Text_block_2_opacity}"/>
+                        </StackPanel>
+                    </Grid>
+                    <ProgressBar Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
+                    <TextBlock Name="type_day" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=type_day}"/>
+
+                </Grid>
+
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=IsWork}" Value="false">
+                    <Setter TargetName="type_day" Property="Text" Value="Выходной" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="Green" />
+
+                    <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
+                    <Setter TargetName="Leaving_time" Property="Text" Value="" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsWork}" Value="true">
+                    <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="Red" />
+
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0,1,0,0" >
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#FF6E6E6E" Offset="0.109"/>
+                        <GradientStop Color="#FF818181" Offset="0.901"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+            </Border>
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Настройки" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Margin="99,23,102,0"></TextBlock>
+            <StackPanel Orientation="Vertical" Grid.Row="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0"></TextBlock>
+                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0"></TextBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Мин. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Макс. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Мин. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Макс. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                </Grid>
+            </StackPanel>
+           
+        </Grid>
+        <Border Grid.Column="1" BorderThickness="1,0,0,0" Margin="0,10,0,10">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FF747474" Offset="0.091"/>
+                    <GradientStop Color="#FF7E7E7E" Offset="0.915"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+        </Border>
+        <Grid Grid.Column="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Button Height="30" Width="30" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="Button_Click_old" Template="{StaticResource  button_template_circle}"/>
+                <Button Height="30" Width="30" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="Button_Click_next" Template="{StaticResource  button_template_circle}" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="180"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <TextBlock x:Name="month_year" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  Text="Январь 2019" Foreground="#FF646464" FontSize="20"/>
+
+            </Grid>
+
+            <Grid Grid.Row="1" Background="#2E3C3B">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="1" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="2" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="3" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="4" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="5" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <Border Grid.Column="6" Grid.Row="0" BorderBrush="#FF7C7C7C" BorderThickness="0,0,1,0"/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="0" VerticalAlignment="Center" Text="Пн."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="1" VerticalAlignment="Center" Text="Вт."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="2" VerticalAlignment="Center" Text="Ср."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="3" VerticalAlignment="Center" Text="Чт."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="4" VerticalAlignment="Center" Text="Пт."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="5" VerticalAlignment="Center" Text="Сб."/>
+                <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="6" VerticalAlignment="Center" Text="Вс."/>
+            </Grid>
+            <ListBox x:Name="ListT" Grid.Row="2" SelectionMode="Extended">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="7"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        
+                        <Setter Property="ContextMenu" Value="{StaticResource ConMenu}"/>
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                        <Setter Property="Padding" Value="0"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EnableContextMenu}" Value="false">
+                                <Setter Property="ContextMenu" Value="{x:Null}"/>
+                                <Setter Property="Focusable" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
+    </Grid>
+
+</Window>
