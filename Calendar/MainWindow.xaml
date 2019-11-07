@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="633.5" Width="900" Icon="pack://siteoforigin:,,,/Resources/icon.ico">
+        Title="MainWindow" Height="630" Width="900" MinWidth="800" MinHeight="630" Icon="pack://siteoforigin:,,,/Resources/icon.ico">
     <Window.Resources>
         <ControlTemplate x:Key="button_template_circle" TargetType="Button">
             <Border x:Name="Bor" CornerRadius="15" BorderBrush="#FFC3C3C3" BorderThickness="1" Background="Transparent">
@@ -105,7 +105,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:NowDay}">
-            <Border Name="Border" BorderThickness="2" BorderBrush="#688a89">
+            <Border Name="Border" BorderThickness="2" BorderBrush="#688a89" CornerRadius="5">
                 <Grid Name="Day_StackPanel">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -198,7 +198,7 @@
                 <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="5" VerticalAlignment="Center" Text="Сб."/>
                 <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="6" VerticalAlignment="Center" Text="Вс."/>
             </Grid>
-            <ListBox x:Name="ListT" Grid.Row="2" SelectionMode="Extended">
+            <ListBox x:Name="ListT" Grid.Row="2" SelectionMode="Extended" BorderBrush="White">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="7"/>
@@ -241,7 +241,7 @@
                     </Border.BorderBrush>
                 </Border>
             </Grid>
-            <TextBlock Grid.Column="1" RenderTransformOrigin="0,0.5" TextAlignment="Center" Width="70"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings" Cursor="Hand">
+            <TextBlock Grid.Column="1" RenderTransformOrigin="0,0.5" TextAlignment="Center" Width="70"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings" Cursor="Hand" Foreground="#FF4F4F4F">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

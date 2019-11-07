@@ -51,7 +51,6 @@ namespace Calendar
         {
             InitializeComponent();
 
-
             //Запускаем таймер
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(OnTimedEvent);

@@ -85,7 +85,7 @@ namespace Calendar
                 {
                     CounterTimer timer_arrival = new CounterTimer(this);
                     timer_arrival.TimeToEndOfACounter = Sittings.liaving_time_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.liaving_time_end.TotalSeconds - (int)Sittings.liaving_time_start.TotalSeconds));
-                    timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
+                    timer_arrival.TimeToStartOfACounter = SQLConnector.TimeSpanGetArrivalTiem(DateTime.Now.Date);
                     timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
                     timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
                     timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
