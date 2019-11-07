@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -40,6 +41,10 @@ namespace Calendar
         public Random random = new Random();
 
         public TimeSpan amount_time;
+
+        public DoubleAnimation SittingsAnimations = new DoubleAnimation();
+        public bool SittingShow = true;
+
 
 
         public MainWindow()
@@ -153,5 +158,22 @@ namespace Calendar
 
             }
         }
+        private void Button_Click_Sittings(object sender, RoutedEventArgs e)
+        {
+
+            SittingsAnimations.From = SittingGrid.Width;
+            SittingsAnimations.Duration = TimeSpan.FromMilliseconds(150);
+
+
+            SittingsAnimations.To = SittingShow ? 20 : 400;
+
+            SittingShow = !SittingShow;
+
+
+
+
+            SittingGrid.BeginAnimation(ContentControl.WidthProperty, SittingsAnimations);
+        }
+
     }
 }
