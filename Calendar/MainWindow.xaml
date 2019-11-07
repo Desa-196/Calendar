@@ -223,20 +223,25 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid x:Name="SittingGrid"  Width="200" HorizontalAlignment="Left">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1" Grid.RowSpan="3" Background="White" Width="20" HorizontalAlignment="Left">
-                <Border BorderBrush="Black" BorderThickness="0,0,1,0"/>
+
+            <Grid Grid.Column="1" Background="White" Width="20" HorizontalAlignment="Left">
+                <Border BorderThickness="0,0,1,0">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                            <GradientStop Color="#FF858585" Offset="0.072"/>
+                            <GradientStop Color="#FF858585" Offset="0.924"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                </Border>
             </Grid>
-            <TextBlock Grid.Column="1" Grid.Row="2"  RenderTransformOrigin="0,0.5"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings">
+            <TextBlock Grid.Column="1" RenderTransformOrigin="0,0.5"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings" Cursor="Hand">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -246,62 +251,71 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            
- 
-            <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,0,0" >
-                <Border.BorderBrush>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
-                        <GradientStop Color="White" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="#FF6E6E6E" Offset="0.109"/>
-                        <GradientStop Color="#FF818181" Offset="0.901"/>
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-            </Border>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Настройки" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Margin="99,23,102,0"></TextBlock>
-            <StackPanel Orientation="Vertical" Grid.Row="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0"></TextBlock>
-                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Мин. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Макс. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Мин. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Макс. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                    <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
-                </Grid>
-            </StackPanel>
+            <Grid Grid.Column="0" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
+                <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,0,0" >
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                            <GradientStop Color="#FF6E6E6E" Offset="0.109"/>
+                            <GradientStop Color="#FF818181" Offset="0.901"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                </Border>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Настройки" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Margin="99,23,102,0"></TextBlock>
+                <StackPanel Orientation="Vertical" Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0"></TextBlock>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Мин. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Макс. время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Мин. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Макс. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
+                    </Grid>
+                </StackPanel>
+
+            </Grid>
         </Grid>
     </Grid>
 
