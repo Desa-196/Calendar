@@ -169,7 +169,7 @@
                         </TransformGroup>
                     </Button.RenderTransform>
                 </Button>
-                <TextBlock x:Name="month_year" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  Text="Январь 2019" Foreground="#FF646464" FontSize="20"/>
+                <TextBlock x:Name="month_year" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  Text="" Foreground="#FF646464" FontSize="20"/>
 
             </Grid>
 
@@ -223,7 +223,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
@@ -241,13 +241,13 @@
                     </Border.BorderBrush>
                 </Border>
             </Grid>
-            <TextBlock Grid.Column="1" RenderTransformOrigin="0,0.5"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings" Cursor="Hand">
+            <TextBlock Grid.Column="1" RenderTransformOrigin="0,0.5" TextAlignment="Center" Width="70"  HorizontalAlignment="Left" VerticalAlignment="Center" Text="Настройки" MouseLeftButtonDown="Button_Click_Sittings" Cursor="Hand">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
                         <SkewTransform/>
                         <RotateTransform Angle="-90"/>
-                        <TranslateTransform X="10"/>
+                        <TranslateTransform Y="38"  X="8"/>
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
@@ -271,7 +271,7 @@
                         </LinearGradientBrush>
                     </Border.BorderBrush>
                 </Border>
-                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Настройки" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Margin="99,23,102,0"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Настройки" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FF646464" FontSize="20" Margin="99,23,102,0"></TextBlock>
                 <StackPanel Orientation="Vertical" Grid.Row="2">
                     <Grid>
                         <Grid.ColumnDefinitions>

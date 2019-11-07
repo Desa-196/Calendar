@@ -165,7 +165,7 @@ namespace Calendar
             SittingsAnimations.Duration = TimeSpan.FromMilliseconds(150);
 
 
-            SittingsAnimations.To = SittingShow ? 20 : 400;
+            SittingsAnimations.To = SittingShow ? 400 : 20;
 
             SittingShow = !SittingShow;
 
