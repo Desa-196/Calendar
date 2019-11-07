@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calendar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="630" Width="900" MinWidth="800" MinHeight="630" Icon="pack://siteoforigin:,,,/Resources/icon.ico">
+        Title="MainWindow" Height="630" Width="900" MinWidth="800" MinHeight="630" Icon="pack://siteoforigin:,,,/Resources/icon.ico" WindowStyle="SingleBorderWindow"  BorderThickness="0" BorderBrush="Azure">
     <Window.Resources>
         <ControlTemplate x:Key="button_template_circle" TargetType="Button">
             <Border x:Name="Bor" CornerRadius="15" BorderBrush="#FFC3C3C3" BorderThickness="1" Background="Transparent">
