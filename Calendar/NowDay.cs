@@ -124,9 +124,9 @@ namespace Calendar
             private void OnCounterLiavingTimeEnd() 
             {
                 
-                Registration.add_log_arrival_time(DateTime.Today, DateTime.Now.TimeOfDay);
+                Registration.add_log_liaving_time(DateTime.Today, DateTime.Now.TimeOfDay);
                 Text_block_2_opacity = 1;
-                Text_block_2 = Registration.get_time_arrival_from_day(DateTime.Today);
+                Text_block_2 = Registration.get_liaving_time_from_day(DateTime.Today);
 
                 start_auto_update();
 
