@@ -67,22 +67,6 @@ namespace Calendar
 
         }
 
-        public static TimeSpan TimeSpanGetArrivalTiem(DateTime day) {
-
-            int unixTime = (int)(day - new DateTime(1970, 1, 1)).TotalSeconds;
-            SQLiteCommand command = new SQLiteCommand(@"select * from Date date LEFT JOIN Log l ON date.id = l.Date_id WHERE date.date = " + unixTime + " and l.Type = '0';", Connect);
-
-            SQLiteDataReader read = command.ExecuteReader();
-            if (read.Read())
-            {
-                return TimeSpan.FromSeconds(Convert.ToInt32(read["Time"]));
-            }
-            else
-            {
-                return default(TimeSpan);
-            }
-        }
-
         public static string get_log_liaving_time(DateTime day)
         {
             int unixTime = (int)(day - new DateTime(1970, 1, 1)).TotalSeconds;

@@ -52,7 +52,7 @@ namespace Calendar
                 {
 
                     CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter =  Sittings.time_arrival_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.time_arrival_end.TotalSeconds - (int)Sittings.time_arrival_start.TotalSeconds));
+                    timer_arrival.TimeToEndOfACounter = Sittings.time_arrival_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.time_arrival_end.TotalSeconds - (int)Sittings.time_arrival_start.TotalSeconds));
                     timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
                     timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
 
@@ -77,7 +77,7 @@ namespace Calendar
                 }
             }
             //Если логи за текущую дату имеются и нет отметки об уходе
-            else if (Registration.get_liaving_time_from_day(data_index.Date) == "") 
+            else if (SQLConnector.get_log_liaving_time(data_index.Date) == "")
             {
                 Text_block_1 = Text_block_1 = SQLConnector.get_log_arrival_time(data_index.Date);
                 //Если сечас позже чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
@@ -85,7 +85,7 @@ namespace Calendar
                 {
                     CounterTimer timer_arrival = new CounterTimer(this);
                     timer_arrival.TimeToEndOfACounter = Sittings.liaving_time_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.liaving_time_end.TotalSeconds - (int)Sittings.liaving_time_start.TotalSeconds));
-                    timer_arrival.TimeToStartOfACounter = SQLConnector.TimeSpanGetArrivalTiem(DateTime.Now.Date);
+                    timer_arrival.TimeToStartOfACounter = Sittings.time_arrival_start;
                     timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
                     timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
                     timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
@@ -107,6 +107,10 @@ namespace Calendar
                 }
 
             }
+            else {
+                Text_block_1 = SQLConnector.get_log_arrival_time(DateTime.Today);
+                Text_block_2 = SQLConnector.get_log_liaving_time(DateTime.Today);
+            }
 
 
 
@@ -116,7 +120,7 @@ namespace Calendar
                 
                 Registration.add_log_arrival_time(DateTime.Today, DateTime.Now.TimeOfDay);
                 Text_block_2_opacity = 1;
-                Text_block_2 = Registration.get_time_arrival_from_day(DateTime.Today);
+                Text_block_2 = SQLConnector.get_log_arrival_time(DateTime.Today);
              
                 start_auto_update();
 
@@ -126,7 +130,7 @@ namespace Calendar
                 
                 Registration.add_log_liaving_time(DateTime.Today, DateTime.Now.TimeOfDay);
                 Text_block_2_opacity = 1;
-                Text_block_2 = Registration.get_liaving_time_from_day(DateTime.Today);
+                Text_block_2 = SQLConnector.get_log_liaving_time(DateTime.Today);
 
                 start_auto_update();
 

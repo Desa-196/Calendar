@@ -58,7 +58,7 @@ namespace Calendar
         }
         public static void add_log_arrival_time(DateTime date, TimeSpan time)
         {
-            SQLConnector.set_log_arrival_time(date+time);
+            SQLConnector.set_log_arrival_time(date + time);
         }
         
         public static void add_log_liaving_time(DateTime date, TimeSpan time)
