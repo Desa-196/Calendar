@@ -13,8 +13,8 @@ namespace  Calendar
         public static TimeSpan time_arrival_start = new TimeSpan(8, 55, 0);
         public static TimeSpan time_arrival_end = new TimeSpan(9, 0, 0);
 
-        public static TimeSpan liaving_time_start = new TimeSpan(21, 00, 0);
-        public static TimeSpan liaving_time_end = new TimeSpan(21, 5, 0);
+        public static TimeSpan liaving_time_start = new TimeSpan(10, 25, 0);
+        public static TimeSpan liaving_time_end = new TimeSpan(10, 30, 0);
 
         public static string SQLBaseName = "Calendar.db";
 

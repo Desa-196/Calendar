@@ -123,7 +123,7 @@
                             <TextBlock ToolTip="{Binding Path=Info_text_block_2}" Name="Leaving_time" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,0,0,0" FontSize="10" Foreground="#FF1E5319" Text="{Binding Path=Text_block_2}"  Opacity="{Binding Path=Text_block_2_opacity}"/>
                         </StackPanel>
                     </Grid>
-                    <ProgressBar Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
+                    <ProgressBar Name="progress_bar" Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
                     <TextBlock Name="type_day" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=type_day}"/>
 
                 </Grid>
@@ -141,6 +141,9 @@
                     <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Red" />
 
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=ViewProgressBar}" Value="false">
+                    <Setter TargetName="progress_bar" Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>

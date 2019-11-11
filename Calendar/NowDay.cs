@@ -11,6 +11,16 @@ namespace Calendar
         public TimeSpan time_start_timer;
         public double text_block_1_opacity;
         public double text_block_2_opacity;
+        public bool _ViewProgressBar = true;
+        public bool ViewProgressBar 
+        {
+            get { return _ViewProgressBar; }
+            set 
+            {
+                _ViewProgressBar = value;
+                OnPropertyChanged("ViewProgressBar");
+            }
+        }
 
         private Random random = new Random();
 
@@ -52,7 +62,7 @@ namespace Calendar
                 {
 
                     CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter =  Sittings.time_arrival_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.time_arrival_end.TotalSeconds - (int)Sittings.time_arrival_start.TotalSeconds));
+                    timer_arrival.TimeToEndOfACounter = Sittings.time_arrival_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.time_arrival_end.TotalSeconds - (int)Sittings.time_arrival_start.TotalSeconds));
                     timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
                     timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
 
@@ -77,7 +87,7 @@ namespace Calendar
                 }
             }
             //Если логи за текущую дату имеются и нет отметки об уходе
-            else if (Registration.get_liaving_time_from_day(data_index.Date) == "") 
+            else if (SQLConnector.get_log_liaving_time(data_index.Date) == "")
             {
                 Text_block_1 = Text_block_1 = SQLConnector.get_log_arrival_time(data_index.Date);
                 //Если сечас позже чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
@@ -107,30 +117,37 @@ namespace Calendar
                 }
 
             }
+            else 
+            {
+                Text_block_1 = SQLConnector.get_log_arrival_time(Data_index.Date);
+                Text_block_2 = SQLConnector.get_log_liaving_time(Data_index.Date);
+                ViewProgressBar = false;
+            }
 
 
 
         }
-            private void OnCounterArrivalTimeEnd() 
-            {
+        private void OnCounterArrivalTimeEnd() 
+        {
                 
-                Registration.add_log_arrival_time(DateTime.Today, DateTime.Now.TimeOfDay);
-                Text_block_2_opacity = 1;
-                Text_block_2 = Registration.get_time_arrival_from_day(DateTime.Today);
+            Registration.add_log_arrival_time(DateTime.Today, DateTime.Now.TimeOfDay);
+            Text_block_2_opacity = 1;
+            Text_block_2 = Registration.get_time_arrival_from_day(DateTime.Today);
              
-                start_auto_update();
+            start_auto_update();
 
-            }
-            private void OnCounterLiavingTimeEnd() 
-            {
+        }
+        private void OnCounterLiavingTimeEnd() 
+        {
                 
-                Registration.add_log_liaving_time(DateTime.Today, DateTime.Now.TimeOfDay);
-                Text_block_2_opacity = 1;
-                Text_block_2 = Registration.get_liaving_time_from_day(DateTime.Today);
+            SQLConnector.set_log_liaving_time(DateTime.Now);
+            Text_block_2_opacity = 1;
+            Text_block_2 = SQLConnector.get_log_liaving_time(DateTime.Today);
+            ViewProgressBar = false;
 
-                start_auto_update();
+            start_auto_update();
 
-            }
+        }
 
     }
 
