@@ -73,7 +73,7 @@ namespace Calendar
         public static bool is_work(DateTime date)
         {
             //Проверяем нашу дату, находится она в длинной рабочей(возвращаем 1) неделе или короткой(возвращаем 0)
-            int date_work_of_the_week = get_day_week(Sittings.work_day);
+            int date_work_of_the_week = get_day_week(Properties.Settings.Default.WorkDay);
             bool long_week;
             if (date_work_of_the_week == 1 || date_work_of_the_week == 2 || date_work_of_the_week == 5 || date_work_of_the_week == 6 || date_work_of_the_week == 7)
             {
@@ -89,7 +89,7 @@ namespace Calendar
             int now_day_of_the_week = get_day_week(date);
 
             //Если сегодняшняя неделя по четности  совпадает  с указанной рабочей датой
-            if (is_even_week(date) == is_even_week(Sittings.work_day))
+            if (is_even_week(date) == is_even_week(Properties.Settings.Default.WorkDay))
             {
                 //Если указанный рабочий день был в длинной неделе то и сегодняшняя неделя длинная. Тогда проверяем рабочий ли сегодня день
                 if (now_day_of_the_week == 1 || now_day_of_the_week == 2 || now_day_of_the_week == 5 || now_day_of_the_week == 6 || now_day_of_the_week == 7)

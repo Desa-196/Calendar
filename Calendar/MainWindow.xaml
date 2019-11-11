@@ -123,7 +123,7 @@
                             <TextBlock ToolTip="{Binding Path=Info_text_block_2}" Name="Leaving_time" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,0,0,0" FontSize="10" Foreground="#FF1E5319" Text="{Binding Path=Text_block_2}"  Opacity="{Binding Path=Text_block_2_opacity}"/>
                         </StackPanel>
                     </Grid>
-                    <ProgressBar Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
+                    <ProgressBar Name="progress_bar" Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
                     <TextBlock Name="type_day" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=type_day}"/>
 
                 </Grid>
@@ -141,6 +141,9 @@
                     <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Red" />
 
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=ViewProgressBar}" Value="false">
+                    <Setter TargetName="progress_bar" Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -223,7 +226,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
@@ -252,6 +255,9 @@
                 </TextBlock.RenderTransform>
             </TextBlock>
             <Grid Grid.Column="0" Background="White">
+                <Grid.DataContext>
+                    <local:PropertiesMenu/>
+                </Grid.DataContext>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="5"/>
@@ -279,7 +285,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0"></TextBlock>
-                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0"></TextBox>
+                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0" Text="{Binding Path=WorkDay, Mode=TwoWay}"></TextBox>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

@@ -65,6 +65,7 @@ namespace Calendar
                 CalculationData.nowDayObject.start_auto_update();
             }
 
+
         }
 
         private void OnTimedEvent(object sender, EventArgs e)
