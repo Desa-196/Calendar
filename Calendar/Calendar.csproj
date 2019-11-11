@@ -108,6 +108,7 @@
     </ApplicationDefinition>
     <Compile Include="CounterTimer.cs" />
     <Compile Include="NowDay.cs" />
+    <Compile Include="PropertiesMenu.cs" />
     <Compile Include="SQLConnector.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
