@@ -14,7 +14,7 @@ namespace Calendar
 
         static SQLConnector()
         {
-            Connect = new SQLiteConnection("Data Source=" + Environment.CurrentDirectory + "\\" + Sittings.SQLBaseName, true);
+            Connect = new SQLiteConnection("Data Source=" + Environment.CurrentDirectory + "\\" + Properties.Settings.Default.DBName, true);
             Connect.Open();
         }
         public static short GetTypeDay(DateTime day) 

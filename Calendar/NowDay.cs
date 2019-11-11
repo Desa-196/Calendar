@@ -58,11 +58,11 @@ namespace Calendar
             if (!SQLConnector.Log_Exist(data_index.Date))
             {
                 //Если сечас раньше чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
-                if (DateTime.Now.TimeOfDay <= Sittings.time_arrival_start)
+                if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.TimeToArrival - Properties.Settings.Default.MaxTimeSpread)
                 {
 
                     CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = Sittings.time_arrival_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.time_arrival_end.TotalSeconds - (int)Sittings.time_arrival_start.TotalSeconds));
+                    timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.TimeToArrival - TimeSpan.FromSeconds(random.Next(0, (int) Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
                     timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
                     timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
 
@@ -91,10 +91,10 @@ namespace Calendar
             {
                 Text_block_1 = Text_block_1 = SQLConnector.get_log_arrival_time(data_index.Date);
                 //Если сечас позже чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
-                if (DateTime.Now.TimeOfDay <= Sittings.liaving_time_start)
+                if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.LiavingTime)
                 {
                     CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = Sittings.liaving_time_start + TimeSpan.FromSeconds(random.Next(0, (int)Sittings.liaving_time_end.TotalSeconds - (int)Sittings.liaving_time_start.TotalSeconds));
+                    timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.LiavingTime + TimeSpan.FromSeconds(random.Next(0, (int)Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
                     timer_arrival.TimeToStartOfACounter = SQLConnector.TimeSpanGetArrivalTiem(DateTime.Now.Date);
                     timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
                     timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
