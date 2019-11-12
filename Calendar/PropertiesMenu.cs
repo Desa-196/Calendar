@@ -91,8 +91,29 @@ namespace Calendar
             }
             set
             {
-                _TimeToArrivalMM = value;
-                OnPropertyChanged("TimeToArrivalMM");
+                int result;
+                //Если передано число
+                if (int.TryParse(value, out result) || value == "")
+                {
+                    if (value != "")
+                    {
+                        if (result >= 0)
+                        {
+                            //Проверяем, меньше ли оно 23
+                            if (Convert.ToInt32(value) <= 59)
+                            {
+                                _TimeToArrivalMM = value;
+                                OnPropertyChanged("TimeToArrivalMM");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _TimeToArrivalMM = value;
+                        OnPropertyChanged("TimeToArrivalMM");
+                    }
+
+                }
             }
         }
 

@@ -307,7 +307,7 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <TextBox Width="48" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Right" Text="{Binding Path=TimeToArrivalHH, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
                                 <TextBlock Width="4" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text=":" Margin="3,0,3,0"></TextBlock>
-                                <TextBox Width="48" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=TimeToArrivalMM}" MaxLength="2" BorderThickness="0"></TextBox>
+                                <TextBox Width="48" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=TimeToArrivalMM, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
                             </StackPanel>
                         </Border>
                     </Grid>
