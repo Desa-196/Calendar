@@ -335,6 +335,13 @@
                         <TextBlock Grid.Column="0" Text="Макс. время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
                         <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0"></TextBox>
                     </Grid>
+                    <Grid Margin="0,100,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" Content="Сохранить"/>
+                    </Grid>
                 </StackPanel>
 
             </Grid>
