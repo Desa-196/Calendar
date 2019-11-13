@@ -210,7 +210,7 @@
                 <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="5" VerticalAlignment="Center" Text="Сб."/>
                 <TextBlock Style="{StaticResource  Style_text_day_of_the_week}" Grid.Column="6" VerticalAlignment="Center" Text="Вс."/>
             </Grid>
-            <ListBox x:Name="ListT" Grid.Row="2" SelectionMode="Extended" BorderBrush="White">
+            <ListBox x:Name="ListT" Grid.Row="2" SelectionMode="Extended"  BorderBrush="White">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="7"/>
