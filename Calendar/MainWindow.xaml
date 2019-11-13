@@ -43,8 +43,9 @@
                 <Setter Property="Control.Foreground" Value="White"/>
             </Style.Setters>
         </Style>
+        
         <DataTemplate DataType="{x:Type local:Day}">
-            <Border Name="Border" BorderThickness="0" BorderBrush="#688a89">
+            <Border Name="Border" BorderThickness="2" CornerRadius="8">
                 <Grid Name="Day_StackPanel">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -73,33 +74,41 @@
                 <DataTrigger Binding="{Binding Path=IsWork}" Value="false">
                     <Setter TargetName="type_day" Property="Text" Value="Выходной" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Green" />
-                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFE4F0EF" />
+                    <Setter TargetName="Border" Property="Control.Background" Value="#FFE4F0EF" />
                     <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
                     <Setter TargetName="Leaving_time" Property="Text" Value="" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFE4F0EF" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Is_now_day}" Value="true">
-                    <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#688a89" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=IsWork}" Value="true">
                     <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Red" />
-                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFF0E8E2" />
+                    <Setter TargetName="Border" Property="Control.Background" Value="#FFF0E8E2" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFF0E8E2" />
                 </DataTrigger>
                 <!--Если отображается день не из текущего выбранного месяца-->
                 <DataTrigger Binding="{Binding Path=day_is_now_month}" Value="false">
-                    <Setter TargetName="Day_StackPanel" Property="Control.Opacity" Value="0.5" />
+                    <Setter TargetName="Border" Property="Control.Opacity" Value="0.5" />
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=Type_day}" Value="1">
                     <Setter TargetName="type_day" Property="Text" Value="Отпуск" />
                     <Setter TargetName="type_day" Property="Foreground" Value="#FF0074FF" />
-                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFB6D6FD" />
+                    <Setter TargetName="Border" Property="Control.Background" Value="#FFB6D6FD" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFB6D6FD" />
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=Type_day}" Value="2">
                     <Setter TargetName="type_day" Property="Text" Value="Отработка" />
                     <Setter TargetName="type_day" Property="Foreground" Value="#FF430093" />
-                    <Setter TargetName="Day_StackPanel" Property="Control.Background" Value="#FFE2ACFB" />
+                    <Setter TargetName="Border" Property="Control.Background" Value="#FFE2ACFB" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFE2ACFB" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FF5F99DE" />
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -214,7 +223,16 @@
                         <Setter Property="IsSelected" Value="{Binding IsSelected}" />
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
-                        <Setter Property="Padding" Value="0"></Setter>
+                        <Setter Property="Margin" Value="1"></Setter>
+                        <Setter Property="BorderThickness" Value="0"></Setter>
+                        <Setter Property="Background" Value="White"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding EnableContextMenu}" Value="false">
                                 <Setter Property="ContextMenu" Value="{x:Null}"/>
