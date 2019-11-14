@@ -45,6 +45,8 @@ namespace Calendar
         public DoubleAnimation SittingsAnimations = new DoubleAnimation();
         public bool SittingShow = true;
 
+        public NowDay NowDay1 = CalculationData.nowDayObject;
+
 
 
         public MainWindow()
