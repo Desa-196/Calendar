@@ -115,6 +115,17 @@ namespace Calendar
             
 
         }
+        private void Button_Click_now_month(object sender, RoutedEventArgs e)
+        {
+
+            month   = DateTime.Now.Month;
+            year    = DateTime.Now.Year;
+
+            CalculationData.get_array_days(year, month);
+            month_year.Text = array_string_month[month - 1] + " " + year.ToString();
+            
+
+        }
 
         private void MenuItem_Click_Otpusk(object sender, RoutedEventArgs e)
         {

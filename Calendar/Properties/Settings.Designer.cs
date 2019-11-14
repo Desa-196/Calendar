@@ -73,7 +73,7 @@ namespace Calendar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2019-10-04")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2019-10-03")]
         public global::System.DateTime WorkDay {
             get {
                 return ((global::System.DateTime)(this["WorkDay"]));
