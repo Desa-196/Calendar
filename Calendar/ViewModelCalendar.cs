@@ -10,14 +10,14 @@ namespace Calendar
     public class ViewModelCalendar: INotifyPropertyChanged
     {
 
-        private int _ButtonNowDay;
-        public int ButtonNowDay 
+        private string _ButtonNowDayMonth;
+        public string ButtonNowDayMonth 
         {
-            get { return _ButtonNowDay; }
+            get { return _ButtonNowDayMonth; }
             set 
             {
-                _ButtonNowDay = value;
-                OnPropertyChanged("ButtonNowDay");
+                _ButtonNowDayMonth = value;
+                OnPropertyChanged("ButtonNowDayMonth");
             }
         }
         private int _ButtonNowYear;
@@ -33,7 +33,7 @@ namespace Calendar
 
         public ViewModelCalendar() 
         {
-            ButtonNowDay = DateTime.Now.Day;
+            ButtonNowDayMonth = DateTime.Now.ToString("dd'.'MM");
             ButtonNowYear = DateTime.Now.Year;
         }
 

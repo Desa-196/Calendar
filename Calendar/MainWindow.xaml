@@ -18,9 +18,9 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Border BorderBrush="#FF838383" BorderThickness="0,0,0,1" Width="20" >
-                        <TextBlock Text="{Binding ButtonNowDay}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#FF787878" FontSize="10" />
+                        <TextBlock Text="{Binding ButtonNowDayMonth}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#FF787878" FontSize="8" FontWeight="Bold"/>
                     </Border>
-                    <TextBlock Grid.Row="1" Text="2019" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF787878" FontSize="8" FontWeight="Bold"/>
+                    <TextBlock Grid.Row="1" Text="{Binding ButtonNowYear}" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF787878" FontSize="8" FontWeight="Bold"/>
                 </Grid>
             </Border>
             <ControlTemplate.Triggers>
