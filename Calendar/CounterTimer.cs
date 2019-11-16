@@ -1,12 +1,12 @@
 ﻿using System;
-
-using System.Windows.Threading;
+using System.Threading;
 
 namespace Calendar
 {
     public class CounterTimer
     {
-        public DispatcherTimer timer = new DispatcherTimer();
+
+        public Timer timer;
 
         public delegate void EndOfACount();
         public EndOfACount endOfACount;
@@ -23,31 +23,37 @@ namespace Calendar
 
         public CounterTimer(NowDay ObjectNowDay)
         {
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 0);
-            timer.Tick += new EventHandler(OnTimedEvent);
+            timer = new Timer(OnTimedEvent, 0, 10, 10);
+
             this.ObjectNowDay = ObjectNowDay;
         }
         public void StartCounterTimer() 
         {
-            timer.Start();
+           // timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
-        private void OnTimedEvent(object sender, EventArgs e)
+        public void StopCounterTimer() 
         {
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timer.Change(Timeout.Infinite, 0);
+        }
+        private void OnTimedEvent(Object obj)
+        {
 
             //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
             if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
             {
                 IntervalCounter = TimeSpan.FromSeconds((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds));
 
+                int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
+                if (progress_bar > 100) { progress_bar = 100; }
+
                 ViewTimerTextInfo("Время отметки: " + TimeToEndOfACounter.ToString("hh':'mm':'ss"));
                 ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
                 ViewTimerTextOpacity(0.6);
-                     
 
-                int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
-                if (progress_bar > 100) { progress_bar = 100; }
+
                 ObjectNowDay.Progress_bar = progress_bar;
+
+                int Counter = 0;
 
 
                 if (IntervalCounter <= TimeSpan.FromSeconds(0))
@@ -56,7 +62,7 @@ namespace Calendar
                     ViewTimerTextInfo("");
                     ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
                     ViewTimerTextOpacity(1);
-                    timer.Stop();
+                    StopCounterTimer();
                     endOfACount();
                 }
 
