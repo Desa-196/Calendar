@@ -4,37 +4,49 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Calendar
 {
-    public class ViewModelCalendar: INotifyPropertyChanged
+    public class ViewModelCalendar : INotifyPropertyChanged
     {
+        public DispatcherTimer dispatcherTimer;
 
-        private string _ButtonNowDayMonth;
-        public string ButtonNowDayMonth 
+        private string _ButtonNowTime;
+        public string ButtonNowTime
         {
-            get { return _ButtonNowDayMonth; }
-            set 
+            get { return _ButtonNowTime; }
+            set
             {
-                _ButtonNowDayMonth = value;
-                OnPropertyChanged("ButtonNowDayMonth");
-            }
-        }
-        private int _ButtonNowYear;
-        public int ButtonNowYear
-        {
-            get { return _ButtonNowYear; }
-            set 
-            {
-                _ButtonNowYear = value;
-                OnPropertyChanged("ButtonNowYear");
+                _ButtonNowTime = value;
+                OnPropertyChanged("ButtonNowTime");
             }
         }
 
-        public ViewModelCalendar() 
+        private string _ButtonNowDate;
+        public string ButtonNowDate
         {
-            ButtonNowDayMonth = DateTime.Now.ToString("dd'.'MM");
-            ButtonNowYear = DateTime.Now.Year;
+            get { return _ButtonNowDate; }
+            set
+            {
+                _ButtonNowDate = value;
+                OnPropertyChanged("ButtonNowDate");
+            }
+        }
+
+        public ViewModelCalendar()
+        {
+            ButtonNowDate = DateTime.Now.ToString("dd'.'MM'.'yyyy");
+
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Tick += new EventHandler(delegate (object sender, EventArgs e)
+            {
+                ButtonNowTime = DateTime.Now.ToString("HH':'mm");
+                ButtonNowDate = DateTime.Now.ToString("dd'.'MM'.'yyyy");
+            });
+
+            dispatcherTimer.Start();
         }
 
 
