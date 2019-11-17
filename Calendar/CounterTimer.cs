@@ -69,6 +69,7 @@ namespace Calendar
                     }
 
                 }
+                Thread.Sleep(100);
             }
         }
     }
