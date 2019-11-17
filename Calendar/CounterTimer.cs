@@ -6,7 +6,7 @@ namespace Calendar
     public class CounterTimer
     {
 
-        public Timer timer;
+        public Thread timer;
 
         public delegate void EndOfACount();
         public EndOfACount endOfACount;
@@ -23,49 +23,52 @@ namespace Calendar
 
         public CounterTimer(NowDay ObjectNowDay)
         {
-            timer = new Timer(OnTimedEvent, 0, 10, 10);
+            timer = new Thread(OnTimedEvent);
+            timer.IsBackground = true;
 
             this.ObjectNowDay = ObjectNowDay;
         }
         public void StartCounterTimer() 
         {
-           // timer.Change(Timeout.Infinite, Timeout.Infinite);
+            timer.Start();
         }
         public void StopCounterTimer() 
         {
-            timer.Change(Timeout.Infinite, 0);
+            timer.Abort();//прерываем поток
+            timer.Join(500);//таймаут на завершение
         }
-        private void OnTimedEvent(Object obj)
+        private void OnTimedEvent()
         {
-
-            //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
-            if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
+            while (true)
             {
-                IntervalCounter = TimeSpan.FromSeconds((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds));
-
-                int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
-                if (progress_bar > 100) { progress_bar = 100; }
-
-                ViewTimerTextInfo("Время отметки: " + TimeToEndOfACounter.ToString("hh':'mm':'ss"));
-                ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
-                ViewTimerTextOpacity(0.6);
-
-
-                ObjectNowDay.Progress_bar = progress_bar;
-
-                int Counter = 0;
-
-
-                if (IntervalCounter <= TimeSpan.FromSeconds(0))
+                //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
+                if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
                 {
 
-                    ViewTimerTextInfo("");
-                    ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
-                    ViewTimerTextOpacity(1);
-                    StopCounterTimer();
-                    endOfACount();
-                }
+                    IntervalCounter = TimeSpan.FromSeconds((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds));
 
+                    int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
+                    if (progress_bar > 100) { progress_bar = 100; }
+
+                    ViewTimerTextInfo("Время отметки: " + TimeToEndOfACounter.ToString("hh':'mm':'ss"));
+                    ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
+                    ViewTimerTextOpacity(0.6);
+
+
+                    ObjectNowDay.Progress_bar = progress_bar;
+
+
+                    if (IntervalCounter <= TimeSpan.FromSeconds(0))
+                    {
+
+                        ViewTimerTextInfo("");
+                        ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
+                        ViewTimerTextOpacity(1);
+                        StopCounterTimer();
+                        endOfACount();
+                    }
+
+                }
             }
         }
     }
