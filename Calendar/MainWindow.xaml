@@ -216,15 +216,13 @@
                 <DataTrigger Binding="{Binding Path=Type_day}" Value="1">
                     <Setter TargetName="type_day" Property="Text" Value="Отпуск" />
                     <Setter TargetName="type_day" Property="Foreground" Value="#FF0074FF" />
-                    <Setter TargetName="Border" Property="Background" Value="#FFB6D6FD" />
-                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFB6D6FD" />
+                    <Setter TargetName="Border" Property="Background" Value="#FFEAF3FF" />
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=Type_day}" Value="2">
                     <Setter TargetName="type_day" Property="Text" Value="Отработка" />
                     <Setter TargetName="type_day" Property="Foreground" Value="#FF430093" />
-                    <Setter TargetName="Border" Property="Background" Value="#FFE2ACFB" />
-                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFE2ACFB" />
+                    <Setter TargetName="Border" Property="Background" Value="#FFF7E6FF" />
                 </DataTrigger>
                 
                 

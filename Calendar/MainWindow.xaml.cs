@@ -78,10 +78,9 @@ namespace Calendar
             {
                 CalculationData.get_array_days(year, month);
                 month_year.Text = array_string_month[month - 1] + " " + year.ToString();
-                if (CalculationData.is_work(DateTime.Now.Date))
-                {
-                    CalculationData.nowDayObject.NewDayRegistration();
-                }
+                
+                CalculationData.nowDayObject.NewDayRegistration();
+
                
                 yesturday = DateTime.Today;
 
