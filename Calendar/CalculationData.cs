@@ -183,6 +183,7 @@ namespace Calendar
             int i = 0;
             int d = 1;
 
+            //Заполняем дни до текущего месяца, day_of_the_week - день недели 1-го числа
             while (i + 1 < day_of_the_week)
             {
 
@@ -213,12 +214,18 @@ namespace Calendar
 
             }
 
+            //Теперь когда добавили все дни до текущего месяца, насинаем добавлять дни текущего месяца, начинаем с 1-го и до day_in_now_month - кол-во дней в текущем месяце
             d = 1;
             while (d <= day_in_now_month)
             {
-                if (DateTime.Now.Date == new DateTime(year, month, d) && CalculationData.is_work(new DateTime(year, month, d)) && SQLConnector.GetTypeDay(new DateTime(year, month, d)) == 0)
+                //Если проходим день который является текущим
+                if (DateTime.Now.Date == new DateTime(year, month, d))
                 {
+                    //&& CalculationData.is_work(new DateTime(year, month, d)) && SQLConnector.GetTypeDay(new DateTime(year, month, d)) == 0
+
                     nowDayObject.Data_index = new DateTime( year, month, d );
+                    nowDayObject.ViewProgressBar = false;
+                    nowDayObject.Type_day = SQLConnector.GetTypeDay(nowDayObject.Data_index);
                     array_objects_days.Add(nowDayObject);
                         
                 }

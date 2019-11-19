@@ -23,53 +23,53 @@ namespace Calendar
 
         public CounterTimer(NowDay ObjectNowDay)
         {
-            timer = new Thread(OnTimedEvent);
-            timer.IsBackground = true;
 
             this.ObjectNowDay = ObjectNowDay;
         }
-        public void StartCounterTimer() 
+
+        public void StartCounterTimer()
         {
-            timer.Start();
-        }
-        public void StopCounterTimer() 
-        {
-            timer.Abort();//прерываем поток
-            timer.Join(500);//таймаут на завершение
-        }
-        private void OnTimedEvent()
-        {
-            while (true)
+            try
             {
-                //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
-                if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
+                while (true)
                 {
-
-                    IntervalCounter = TimeSpan.FromSeconds((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds));
-
-                    int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
-                    if (progress_bar > 100) { progress_bar = 100; }
-
-                    ViewTimerTextInfo("Время отметки: " + TimeToEndOfACounter.ToString("hh':'mm':'ss"));
-                    ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
-                    ViewTimerTextOpacity(0.6);
-
-
-                    ObjectNowDay.Progress_bar = progress_bar;
-
-
-                    if (IntervalCounter <= TimeSpan.FromSeconds(0))
+                    //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
+                    if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
                     {
+                        ObjectNowDay.ViewProgressBar = true;
 
-                        ViewTimerTextInfo("");
+                        IntervalCounter = TimeSpan.FromSeconds((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds));
+
+                        int progress_bar = (int)(100 - Math.Round(((IntervalCounter.TotalSeconds) / (TimeToEndOfACounter.TotalSeconds - TimeToStartOfACounter.TotalSeconds)) * 100.0));
+                        if (progress_bar > 100) { progress_bar = 100; }
+
+                        ViewTimerTextInfo("Время отметки: " + TimeToEndOfACounter.ToString("hh':'mm':'ss"));
                         ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
-                        ViewTimerTextOpacity(1);
-                        StopCounterTimer();
-                        endOfACount();
-                    }
+                        ViewTimerTextOpacity(0.6);
 
+                        ObjectNowDay.Progress_bar = progress_bar;
+
+
+                        if (IntervalCounter <= TimeSpan.FromSeconds(0))
+                        {
+
+                            ViewTimerTextInfo("");
+                            ViewTimerText(IntervalCounter.ToString("hh':'mm':'ss"));
+                            ViewTimerTextOpacity(1);
+                            endOfACount();
+                            break;
+                        }
+
+                    }
+                    Thread.Sleep(200);
                 }
-                Thread.Sleep(100);
+
+            }
+            catch (ThreadAbortException) 
+            {
+                ViewTimerTextInfo("");
+                ViewTimerText("");
+                ObjectNowDay.ViewProgressBar = false;
             }
         }
     }

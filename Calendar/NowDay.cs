@@ -1,12 +1,12 @@
 ﻿using System;
-
+using System.Threading;
 using System.Windows.Threading;
 
 namespace Calendar
 {
     public class NowDay : Day
     {
-        public DispatcherTimer timer;
+        public Thread timer;
         public TimeSpan time_to_registrations;
         public TimeSpan time_start_timer;
         public double text_block_1_opacity;
@@ -21,6 +21,18 @@ namespace Calendar
                 OnPropertyChanged("ViewProgressBar");
             }
         }
+        
+        public bool _IsStart = true;
+        public bool IsStart
+        {
+            get { return _IsStart; }
+            set 
+            {
+                _IsStart = value;
+                OnPropertyChanged("IsStart");
+            }
+        }
+
 
         private Random random = new Random();
 
@@ -29,8 +41,13 @@ namespace Calendar
             Data_index = data_index;
             Text_block_1_opacity = 1;
             Text_block_2_opacity = 1;
+
+            timer = new Thread(start_auto_update);
+            timer.IsBackground = true;
+            IsStart = true;
+
         }
-        public double Text_block_1_opacity
+    public double Text_block_1_opacity
         {
             get { return text_block_1_opacity; }
             set
@@ -48,83 +65,110 @@ namespace Calendar
                 OnPropertyChanged("Text_Block_2_opacity");
            }
         }
+        public void StartTimerRegistration() 
+        {
+            if (timer.IsAlive) timer.Abort();
+
+            timer = new Thread(start_auto_update);
+            timer.IsBackground = true;
+            IsStart = true;
+
+            timer.Start();
+        }
+        public void StopTimerRegistration() 
+        {
+            IsStart = false;
+            timer.Abort();
+        }
+        public void NewDayRegistration() 
+        {
+            if (IsStart)
+            {
+                timer.Abort();
+                timer = new Thread(start_auto_update);
+                timer.IsBackground = true;
+                timer.Start();
+            }
+        }
 
 
 
         public void start_auto_update()
         {
-
-            //Если в массиве логов нет лога за текущую дату, значит ещё не отмечали приход
-            if (!SQLConnector.Log_Exist(data_index.Date))
+            while (true)
             {
-                //Если сечас раньше чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
-                if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.TimeToArrival - Properties.Settings.Default.MaxTimeSpread)
+                //Если в массиве логов нет лога за текущую дату, значит ещё не отмечали приход
+                if (!SQLConnector.Log_Exist(data_index.Date))
                 {
+                    //Если сечас раньше чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
+                    if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.TimeToArrival - Properties.Settings.Default.MaxTimeSpread)
+                    {
 
-                    CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.TimeToArrival - TimeSpan.FromSeconds(random.Next(0, (int) Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
-                    timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
-                    timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
+                        CounterTimer timer_arrival = new CounterTimer(this);
+                        timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.TimeToArrival - TimeSpan.FromSeconds(random.Next(0, (int)Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
+                        timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
+                        timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
 
-                    //Передаем ламбда выражения для вывода счетчика в нужное место, в данном случае в 1-й блок
-                    timer_arrival.ViewTimerText = text => this.Text_block_1 = text;
-                    timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_1 = text;
-                    timer_arrival.ViewTimerTextOpacity = text => this.Text_block_1_opacity = text;
-                    timer_arrival.StartCounterTimer();
+                        //Передаем ламбда выражения для вывода счетчика в нужное место, в данном случае в 1-й блок
+                        timer_arrival.ViewTimerText = text => this.Text_block_1 = text;
+                        timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_1 = text;
+                        timer_arrival.ViewTimerTextOpacity = text => this.Text_block_1_opacity = text;
+                        timer_arrival.StartCounterTimer();
+
+                    }
+                    //Если сечас позже чем минимальное время отметки прихода значит отмечаем немедленно, даём 10 сек на передумать.
+                    else
+                    {
+                        CounterTimer timer_arrival = new CounterTimer(this);
+                        timer_arrival.TimeToEndOfACounter = DateTime.Now.TimeOfDay + TimeSpan.FromSeconds(15);
+                        timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
+                        timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
+                        timer_arrival.ViewTimerText = text => this.Text_block_1 = text;
+                        timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_1 = text;
+                        timer_arrival.ViewTimerTextOpacity = text => this.Text_block_1_opacity = text;
+                        timer_arrival.StartCounterTimer();
+                    }
+                }
+                //Если логи за текущую дату имеются и нет отметки об уходе
+                else if (SQLConnector.get_log_liaving_time(data_index.Date) == "")
+                {
+                    Text_block_1 = Text_block_1 = SQLConnector.get_log_arrival_time(data_index.Date);
+
+                    //Если сечас раньше чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
+                    if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.LiavingTime)
+                    {
+                        CounterTimer timer_arrival = new CounterTimer(this);
+                        timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.LiavingTime + TimeSpan.FromSeconds(random.Next(0, (int)Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
+                        timer_arrival.TimeToStartOfACounter = Properties.Settings.Default.TimeToArrival ;
+                        timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
+                        timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
+                        timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
+                        timer_arrival.ViewTimerTextOpacity = text => this.Text_block_2_opacity = text;
+                        timer_arrival.StartCounterTimer();
+                    }
+                    //Если сечас позже чем минимальное время отметки прихода значит отмечаем немедленно, даём 10 сек на передумать.
+                    else
+                    {
+                        CounterTimer timer_arrival = new CounterTimer(this);
+                        timer_arrival.TimeToEndOfACounter = DateTime.Now.TimeOfDay + TimeSpan.FromSeconds(15);
+                        timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
+                        timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
+                        timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
+                        timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
+                        timer_arrival.ViewTimerTextOpacity = text => this.Text_block_2_opacity = text;
+                        timer_arrival.StartCounterTimer();
+
+                    }
 
                 }
-                //Если сечас позже чем минимальное время отметки прихода значит отмечаем немедленно, даём 10 сек на передумать.
                 else
                 {
-                    CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = DateTime.Now.TimeOfDay + TimeSpan.FromSeconds(15);
-                    timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
-                    timer_arrival.endOfACount += OnCounterArrivalTimeEnd;
-                    timer_arrival.ViewTimerText = text => this.Text_block_1 = text;
-                    timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_1 = text;
-                    timer_arrival.ViewTimerTextOpacity = text => this.Text_block_1_opacity = text;
-                    timer_arrival.StartCounterTimer();
-                }
-            }
-            //Если логи за текущую дату имеются и нет отметки об уходе
-            else if (SQLConnector.get_log_liaving_time(data_index.Date) == "")
-            {
-                Text_block_1 = Text_block_1 = SQLConnector.get_log_arrival_time(data_index.Date);
-                //Если сечас позже чем минимальное время отметки прихода значит отмечаем в минимальное время отметки прихода плюс случайное число секунд.
-                if (DateTime.Now.TimeOfDay <= Properties.Settings.Default.LiavingTime)
-                {
-                    CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = Properties.Settings.Default.LiavingTime + TimeSpan.FromSeconds(random.Next(0, (int)Properties.Settings.Default.MaxTimeSpread.TotalSeconds));
-                    timer_arrival.TimeToStartOfACounter = SQLConnector.TimeSpanGetArrivalTiem(DateTime.Now.Date);
-                    timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
-                    timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
-                    timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
-                    timer_arrival.ViewTimerTextOpacity = text => this.Text_block_2_opacity = text;
-                    timer_arrival.StartCounterTimer();
-                }
-                //Если сечас позже чем минимальное время отметки прихода значит отмечаем немедленно, даём 10 сек на передумать.
-                else
-                {
-                    CounterTimer timer_arrival = new CounterTimer(this);
-                    timer_arrival.TimeToEndOfACounter = DateTime.Now.TimeOfDay + TimeSpan.FromSeconds(15);
-                    timer_arrival.TimeToStartOfACounter = DateTime.Now.TimeOfDay;
-                    timer_arrival.endOfACount += OnCounterLiavingTimeEnd;
-                    timer_arrival.ViewTimerText = text => this.Text_block_2 = text;
-                    timer_arrival.ViewTimerTextInfo = text => this.Info_text_block_2 = text;
-                    timer_arrival.ViewTimerTextOpacity = text => this.Text_block_2_opacity = text;
-                    timer_arrival.StartCounterTimer();
-
+                    Text_block_1 = SQLConnector.get_log_arrival_time(Data_index.Date);
+                    Text_block_2 = SQLConnector.get_log_liaving_time(Data_index.Date);
+                    ViewProgressBar = false;
                 }
 
             }
-            else 
-            {
-                Text_block_1 = SQLConnector.get_log_arrival_time(Data_index.Date);
-                Text_block_2 = SQLConnector.get_log_liaving_time(Data_index.Date);
-                ViewProgressBar = false;
-            }
-
-
 
         }
         private void OnCounterArrivalTimeEnd() 
@@ -134,7 +178,6 @@ namespace Calendar
             Text_block_2_opacity = 1;
             Text_block_2 = Registration.get_time_arrival_from_day(DateTime.Today);
              
-            start_auto_update();
 
         }
         private void OnCounterLiavingTimeEnd() 
@@ -145,7 +188,6 @@ namespace Calendar
             Text_block_2 = SQLConnector.get_log_liaving_time(DateTime.Today);
             ViewProgressBar = false;
 
-            start_auto_update();
 
         }
 

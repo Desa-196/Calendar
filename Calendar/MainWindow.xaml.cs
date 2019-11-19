@@ -64,7 +64,7 @@ namespace Calendar
 
             if (CalculationData.is_work(DateTime.Now.Date) && SQLConnector.GetTypeDay(DateTime.Now.Date) == 0)
             {
-                CalculationData.nowDayObject.start_auto_update();
+                CalculationData.nowDayObject.StartTimerRegistration();
             }
 
 
@@ -80,7 +80,7 @@ namespace Calendar
                 month_year.Text = array_string_month[month - 1] + " " + year.ToString();
                 if (CalculationData.is_work(DateTime.Now.Date))
                 {
-                    CalculationData.nowDayObject.start_auto_update();
+                    CalculationData.nowDayObject.NewDayRegistration();
                 }
                
                 yesturday = DateTime.Today;
@@ -188,5 +188,16 @@ namespace Calendar
             SittingGrid.BeginAnimation(ContentControl.WidthProperty, SittingsAnimations);
         }
 
+        private void Button_Click_Start_Stop(object sender, RoutedEventArgs e)
+        {
+            if (CalculationData.nowDayObject.IsStart)
+            {
+                CalculationData.nowDayObject.StopTimerRegistration();
+            }
+            else 
+            {
+                CalculationData.nowDayObject.StartTimerRegistration();
+            }
+        }
     }
 }

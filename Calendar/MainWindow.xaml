@@ -34,9 +34,9 @@
             </ControlTemplate.Triggers>
 
         </ControlTemplate>
-        
-        
-        
+
+
+
         <ControlTemplate x:Key="button_template_circle" TargetType="Button">
             <Border x:Name="Bor" CornerRadius="15" BorderBrush="#FFC3C3C3" BorderThickness="1" Background="Transparent">
                 <Image Source="Resources/Button_img.png" RenderTransformOrigin="0.5,0.5" Height="10" Width="18">
@@ -61,8 +61,8 @@
             </ControlTemplate.Triggers>
 
         </ControlTemplate>
-        
-        
+
+
         <ContextMenu x:Key="ConMenu">
             <MenuItem Header="Отметить как отпуск" Click="MenuItem_Click_Otpusk"/>
             <MenuItem Header="Отметить как рабочий" Click="MenuItem_Click_Work_Day"/>
@@ -76,7 +76,7 @@
                 <Setter Property="Control.Foreground" Value="White"/>
             </Style.Setters>
         </Style>
-        
+
         <DataTemplate DataType="{x:Type local:Day}">
             <Border Name="Border" BorderThickness="2" CornerRadius="8">
                 <Grid Name="Day_StackPanel">
@@ -166,7 +166,35 @@
                         </StackPanel>
                     </Grid>
                     <ProgressBar Name="progress_bar" Margin="5,0,5,0" Height="2" Grid.Row="1" VerticalAlignment="Top" Maximum="101" Value="{Binding Path=Progress_bar}" Foreground="#A64A00" BorderBrush="#FFC9DCEC" />
-                    <TextBlock Name="type_day" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=type_day}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Width="15" Height="20" HorizontalAlignment="Left" Margin="5,0,0,0" Click="Button_Click_Start_Stop">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Polygon x:Name="IconPlayStop"  Fill="#87aac1" Points="2,4, 13,10, 2,16" ToolTip="Запустить регистрацию"/>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsStart}" Value="true">
+                                            <Setter TargetName="IconPlayStop"  Property="Points" Value="2,4, 13,4, 13,16, 2,16"/>
+                                            <Setter TargetName="IconPlayStop" Property="ToolTip" Value="Остановить регистрацию"/>
+                                        </DataTrigger>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <!--<Setter TargetName="ButtonPlayStop" Property="BorderThickness" Value="2"></Setter>-->
+                                            <Setter TargetName="IconPlayStop" Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="IconPlayStop" Property="Fill" Value="#FF326568"></Setter>
+                                        </Trigger>
+                                        <!--<Trigger Property="IsPressed"  Value="true">-->
+                                        <!--<Setter TargetName="ButtonPlayStop" Property="Background" Value="#FFE2E2E2"></Setter>-->
+                                        <!--</Trigger>-->
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <TextBlock Name="type_day" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,5,5,2" FontSize="12" FontFamily="Segoe UI Semilight" Foreground="#FF408739" Text="{Binding Path=type_day}"/>
+                    </Grid>
+
 
                 </Grid>
 
@@ -175,6 +203,7 @@
                 <DataTrigger Binding="{Binding Path=IsWork}" Value="false">
                     <Setter TargetName="type_day" Property="Text" Value="Выходной" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Green" />
+                    <Setter TargetName="Border" Property="Background" Value="#FFF3FBFB" />
 
                     <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
                     <Setter TargetName="Leaving_time" Property="Text" Value="" />
@@ -182,8 +211,23 @@
                 <DataTrigger Binding="{Binding Path=IsWork}" Value="true">
                     <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
                     <Setter TargetName="type_day" Property="Foreground" Value="#FF992121" />
-
                 </DataTrigger>
+                
+                <DataTrigger Binding="{Binding Path=Type_day}" Value="1">
+                    <Setter TargetName="type_day" Property="Text" Value="Отпуск" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="#FF0074FF" />
+                    <Setter TargetName="Border" Property="Background" Value="#FFB6D6FD" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFB6D6FD" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=Type_day}" Value="2">
+                    <Setter TargetName="type_day" Property="Text" Value="Отработка" />
+                    <Setter TargetName="type_day" Property="Foreground" Value="#FF430093" />
+                    <Setter TargetName="Border" Property="Background" Value="#FFE2ACFB" />
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#FFE2ACFB" />
+                </DataTrigger>
+                
+                
                 <DataTrigger Binding="{Binding Path=ViewProgressBar}" Value="false">
                     <Setter TargetName="progress_bar" Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
@@ -279,7 +323,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
@@ -399,6 +443,7 @@
 
             </Grid>
         </Grid>
+
     </Grid>
 
 </Window>
