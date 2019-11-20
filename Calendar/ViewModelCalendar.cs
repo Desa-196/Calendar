@@ -11,6 +11,7 @@ namespace Calendar
     public class ViewModelCalendar : INotifyPropertyChanged
     {
         public DispatcherTimer dispatcherTimer;
+        private bool AnimatedClock = true;
 
         private string _ButtonNowTime;
         public string ButtonNowTime
@@ -42,8 +43,9 @@ namespace Calendar
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += new EventHandler(delegate (object sender, EventArgs e)
             {
-                ButtonNowTime = DateTime.Now.ToString("HH':'mm");
+                ButtonNowTime = DateTime.Now.ToString("HH'"+ (AnimatedClock?":":" ")+ "'mm");
                 ButtonNowDate = DateTime.Now.ToString("dd'.'MM'.'yyyy");
+                AnimatedClock = !AnimatedClock;
             });
 
             dispatcherTimer.Start();
