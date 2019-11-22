@@ -62,12 +62,6 @@ namespace Calendar
             ListT.ItemsSource = CalculationData.get_array_days(year, month);
             month_year.Text = array_string_month[month - 1] + " " + year.ToString();
 
-            if (CalculationData.is_work(DateTime.Now.Date) && SQLConnector.GetTypeDay(DateTime.Now.Date) == 0)
-            {
-                CalculationData.nowDayObject.StartTimerRegistration();
-            }
-
-
         }
 
         private void OnTimedEvent(object sender, EventArgs e)

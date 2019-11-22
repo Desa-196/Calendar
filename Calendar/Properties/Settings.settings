@@ -17,5 +17,8 @@
     <Setting Name="WorkDay" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">2019-10-04</Value>
     </Setting>
+    <Setting Name="IsStart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

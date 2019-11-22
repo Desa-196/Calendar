@@ -22,13 +22,15 @@ namespace Calendar
             }
         }
         
-        public bool _IsStart = true;
+        public bool _IsStart;
         public bool IsStart
         {
-            get { return _IsStart; }
+            get { return Properties.Settings.Default.IsStart; }
             set 
             {
                 _IsStart = value;
+                Properties.Settings.Default.IsStart = value;
+                Properties.Settings.Default.Save();
                 OnPropertyChanged("IsStart");
             }
         }
@@ -44,7 +46,10 @@ namespace Calendar
 
             timer = new Thread(start_auto_update);
             timer.IsBackground = true;
-            IsStart = true;
+            if (IsStart) 
+            {
+                timer.Start();
+            }
 
         }
     public double Text_block_1_opacity

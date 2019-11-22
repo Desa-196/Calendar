@@ -18,8 +18,11 @@ namespace Calendar
             {
                 return new MyCommand((obj) =>
                 {
-
                     isChange = false;
+                    Properties.Settings.Default.WorkDay = new DateTime(Convert.ToInt32(WorkDayYYYY), Convert.ToInt32(WorkDayMM), Convert.ToInt32(WorkDayDD));
+                    Properties.Settings.Default.Save();
+                    CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
+                    CalculationData.nowDayObject.NewDayRegistration();
                 },
                 (obj) =>
                 {

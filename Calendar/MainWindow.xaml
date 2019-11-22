@@ -321,7 +321,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>

@@ -82,5 +82,17 @@ namespace Calendar.Properties {
                 this["WorkDay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsStart {
+            get {
+                return ((bool)(this["IsStart"]));
+            }
+            set {
+                this["IsStart"] = value;
+            }
+        }
     }
 }
