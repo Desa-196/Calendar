@@ -198,5 +198,11 @@ namespace Calendar
                 CalculationData.nowDayObject.StartTimerRegistration();
             }
         }
+
+        private void Button_Click_Save_Settings(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.WorkDay = DateTime.Now;
+        }
+
     }
 }

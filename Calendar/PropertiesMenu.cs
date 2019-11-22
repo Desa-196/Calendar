@@ -9,6 +9,26 @@ namespace Calendar
 {
     public class PropertiesMenu: INotifyPropertyChanged
     {
+
+        public bool isChange = false;
+
+        public MyCommand SaveSettings 
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+
+                    isChange = false;
+                },
+                (obj) =>
+                {
+                    return isChange; 
+                });
+            }
+        }
+
+
         public String _RandomInterval = Properties.Settings.Default.MaxTimeSpread.Minutes.ToString();
         public String RandomInterval
         {
@@ -20,6 +40,7 @@ namespace Calendar
             {
                 _RandomInterval = value;
                 OnPropertyChanged("RandomInterval");
+                isChange = true;
             }
         }
         public String _WorkDayDD = Properties.Settings.Default.WorkDay.ToString("dd");
@@ -33,6 +54,7 @@ namespace Calendar
             {
                 _WorkDayDD = value;
                 OnPropertyChanged("WorkDayDD");
+                isChange = true;
             }
         }
         public String _WorkDayMM = Properties.Settings.Default.WorkDay.ToString("MM");
@@ -46,6 +68,7 @@ namespace Calendar
             {
                 _WorkDayMM = value;
                 OnPropertyChanged("WorkDayMM");
+                isChange = true;
             }
         }
         public String _WorkDayYYYY = Properties.Settings.Default.WorkDay.ToString("yyyy");
@@ -59,6 +82,7 @@ namespace Calendar
             {
                 _WorkDayYYYY = value;
                 OnPropertyChanged("WorkDayYYYY");
+                isChange = true;
             }
         }
         public String _TimeToArrivalHH = Properties.Settings.Default.TimeToArrival.ToString("hh");
@@ -83,6 +107,7 @@ namespace Calendar
                             {
                                 _TimeToArrivalHH = value;
                                 OnPropertyChanged("TimeToArrivalHH");
+                                isChange = true;
                             }
                         }
                     }
@@ -90,6 +115,7 @@ namespace Calendar
                     {
                         _TimeToArrivalHH = value;
                         OnPropertyChanged("TimeToArrivalHH");
+                        isChange = true;
                     }
 
                 }
@@ -117,6 +143,7 @@ namespace Calendar
                             {
                                 _TimeToArrivalMM = value;
                                 OnPropertyChanged("TimeToArrivalMM");
+                                isChange = true;
                             }
                         }
                     }
@@ -124,6 +151,7 @@ namespace Calendar
                     {
                         _TimeToArrivalMM = value;
                         OnPropertyChanged("TimeToArrivalMM");
+                        isChange = true;
                     }
 
                 }
@@ -151,6 +179,7 @@ namespace Calendar
                             {
                                 _TimeToLiavingHH = value;
                                 OnPropertyChanged("TimeToLiavingHH");
+                                isChange = true;
                             }
                         }
                     }
@@ -158,6 +187,7 @@ namespace Calendar
                     {
                         _TimeToLiavingHH = value;
                         OnPropertyChanged("TimeToLiavingHH");
+                        isChange = true;
                     }
 
                 }
@@ -185,6 +215,7 @@ namespace Calendar
                             {
                                 _TimeToLiavingMM = value;
                                 OnPropertyChanged("TimeToLiavingMM");
+                                isChange = true;
                             }
                         }
                     }
@@ -192,6 +223,7 @@ namespace Calendar
                     {
                         _TimeToLiavingMM = value;
                         OnPropertyChanged("TimeToLiavingMM");
+                        isChange = true;
                     }
 
                 }
@@ -213,5 +245,7 @@ namespace Calendar
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }
