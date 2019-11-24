@@ -19,7 +19,7 @@ namespace Calendar
                 return new MyCommand((obj) =>
                 {
                     isChange = false;
-                    Properties.Settings.Default.WorkDay = new DateTime(Convert.ToInt32(WorkDayYYYY), Convert.ToInt32(WorkDayMM), Convert.ToInt32(WorkDayDD));
+                    Properties.Settings.Default.WorkDay = WorkDay;
                     Properties.Settings.Default.Save();
                     CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
                     CalculationData.nowDayObject.NewDayRegistration();
@@ -46,17 +46,17 @@ namespace Calendar
                 isChange = true;
             }
         }
-        public String _WorkDayDD = Properties.Settings.Default.WorkDay.ToString("dd");
-        public String WorkDayDD
+        public DateTime _WorkDay = Properties.Settings.Default.WorkDay;
+        public DateTime WorkDay
         {
             get 
             { 
-                return _WorkDayDD; 
+                return _WorkDay; 
             }
             set 
             {
-                _WorkDayDD = value;
-                OnPropertyChanged("WorkDayDD");
+                _WorkDay = value;
+                OnPropertyChanged("WorkDay");
                 isChange = true;
             }
         }
