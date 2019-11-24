@@ -321,7 +321,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
@@ -380,18 +380,6 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,23,0,0"></TextBlock>
-                        
-                        <!--<Border Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,20,0,0" BorderBrush="#FF767676" BorderThickness="1">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBox Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text="{Binding Path=WorkDayDD, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
-                                <TextBlock Width="5" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text="." Margin="3,0,3,0"></TextBlock>
-
-                                <TextBox Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text="{Binding Path=WorkDayMM, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
-                                <TextBlock Width="5" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text="." Margin="3,0,3,0"></TextBlock>
-
-                                <TextBox Width="35" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text="{Binding Path=WorkDayYYYY, UpdateSourceTrigger=PropertyChanged}" MaxLength="4" BorderThickness="0"></TextBox>
-                            </StackPanel>
-                        </Border>-->
                         <DatePicker Grid.Column="1"  VerticalAlignment="Top" Margin="10,20,0,0" Width="100" SelectedDate="{Binding WorkDay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                     <Grid>
