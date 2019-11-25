@@ -68,7 +68,7 @@ namespace Calendar
                 },
                 (obj) =>
                 {
-                    return Convert.ToInt32(TimeToArrivalMM) < 23; 
+                    return Convert.ToInt32(TimeToArrivalMM) < 59; 
                 });
             }
         }
