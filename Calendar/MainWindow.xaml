@@ -413,7 +413,7 @@
                                     </Button>
                                     
                                 </StackPanel>
-                            <Border Width="68" Height="20" BorderBrush="#FF767676" BorderThickness="1" >
+                            <Border Width="68" Height="20" BorderBrush="#FF767676" BorderThickness="0,1,0,1" >
                                 <StackPanel Orientation="Horizontal">
                                     <TextBox Width="28" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Right" Text="{Binding Path=TimeToArrivalHH, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
                                     <TextBlock Width="4" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text=":" Margin="3,0,3,0"></TextBlock>
