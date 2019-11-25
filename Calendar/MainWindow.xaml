@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="630" Width="900" MinWidth="800" MinHeight="630" Icon="pack://siteoforigin:,,,/Resources/icon.ico" WindowStyle="SingleBorderWindow"  BorderThickness="0" BorderBrush="Azure">
     <Window.Resources>
+
+        <ControlTemplate x:Key="ButtonUpDownTempate" TargetType="Button">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" BorderThickness="1" BorderBrush="Gray" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <ContentControl x:Name="contentButton" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="contentButton" Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
         <ControlTemplate x:Key="button_template_now_month" TargetType="Button">
             <Border x:Name="Bor" CornerRadius="8" BorderBrush="#FFC3C3C3" BorderThickness="1" Background="Transparent">
                 <Grid>
@@ -321,7 +333,7 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-        <Grid  x:Name="SittingGrid"  Width="20" HorizontalAlignment="Left">
+        <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>
@@ -388,13 +400,39 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Время прихода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                        <Border Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0" BorderBrush="#FF767676" BorderThickness="1">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBox Width="48" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Right" Text="{Binding Path=TimeToArrivalHH, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
-                                <TextBlock Width="4" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text=":" Margin="3,0,3,0"></TextBlock>
-                                <TextBox Width="48" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=TimeToArrivalMM, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
+                      
+                            <StackPanel Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel Width="16" Orientation="Vertical">
+
+                                    <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeUpTimeToArrivalHH}" Template="{StaticResource ButtonUpDownTempate}">
+                                        <TextBlock Text="▲" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA" />
+                                    </Button>
+
+                                    <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeDownTimeToArrivalHH}" Template="{StaticResource ButtonUpDownTempate}">
+                                        <TextBlock Text="▼" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA"/>
+                                    </Button>
+                                    
+                                </StackPanel>
+                            <Border Width="68" Height="20" BorderBrush="#FF767676" BorderThickness="1" >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Width="28" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Right" Text="{Binding Path=TimeToArrivalHH, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
+                                    <TextBlock Width="4" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Text=":" Margin="3,0,3,0"></TextBlock>
+                                    <TextBox Width="28" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding Path=TimeToArrivalMM, UpdateSourceTrigger=PropertyChanged}" MaxLength="2" BorderThickness="0"></TextBox>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Width="16" Orientation="Vertical">
+
+                                    <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeUpTimeToArrivalMM}" Template="{StaticResource ButtonUpDownTempate}">
+                                        <TextBlock Text="▲" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA" />
+                                    </Button>
+
+                                    <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeDownTimeToArrivalMM}" Template="{StaticResource ButtonUpDownTempate}">
+                                        <TextBlock Text="▼" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA"/>
+                                    </Button>
+
+                                </StackPanel>
                             </StackPanel>
-                        </Border>
+  
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

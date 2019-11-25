@@ -30,6 +30,62 @@ namespace Calendar
                 });
             }
         }
+        public MyCommand ChangeUpTimeToArrivalHH 
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)+1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToArrivalHH) < 23; 
+                });
+            }
+        }
+        public MyCommand ChangeDownTimeToArrivalHH
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)-1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToArrivalHH) > 0; 
+                });
+            }
+        }
+        public MyCommand ChangeUpTimeToArrivalMM 
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)+1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToArrivalMM) < 23; 
+                });
+            }
+        }
+        public MyCommand ChangeDownTimeToArrivalMM
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)-1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToArrivalMM) > 0; 
+                });
+            }
+        }
 
 
         public String _RandomInterval = Properties.Settings.Default.MaxTimeSpread.Minutes.ToString();
@@ -60,34 +116,7 @@ namespace Calendar
                 isChange = true;
             }
         }
-        public String _WorkDayMM = Properties.Settings.Default.WorkDay.ToString("MM");
-        public String WorkDayMM
-        {
-            get 
-            { 
-                return _WorkDayMM; 
-            }
-            set 
-            {
-                _WorkDayMM = value;
-                OnPropertyChanged("WorkDayMM");
-                isChange = true;
-            }
-        }
-        public String _WorkDayYYYY = Properties.Settings.Default.WorkDay.ToString("yyyy");
-        public String WorkDayYYYY
-        {
-            get 
-            { 
-                return _WorkDayYYYY; 
-            }
-            set 
-            {
-                _WorkDayYYYY = value;
-                OnPropertyChanged("WorkDayYYYY");
-                isChange = true;
-            }
-        }
+      
         public String _TimeToArrivalHH = Properties.Settings.Default.TimeToArrival.ToString("hh");
         public String TimeToArrivalHH
         {
