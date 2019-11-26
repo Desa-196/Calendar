@@ -94,5 +94,41 @@ namespace Calendar.Properties {
                 this["IsStart"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableSendSMS {
+            get {
+                return ((bool)(this["EnableSendSMS"]));
+            }
+            set {
+                this["EnableSendSMS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("89036210703")]
+        public string TelephoneNumber {
+            get {
+                return ((string)(this["TelephoneNumber"]));
+            }
+            set {
+                this["TelephoneNumber"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4F0586E6-7FD1-1843-38EE-CEF5825D5B2F")]
+        public string Id_SMS_RU {
+            get {
+                return ((string)(this["Id_SMS_RU"]));
+            }
+            set {
+                this["Id_SMS_RU"] = value;
+            }
+        }
     }
 }

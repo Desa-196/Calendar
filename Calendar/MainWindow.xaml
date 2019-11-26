@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="630" Width="900" MinWidth="800" MinHeight="630" Icon="pack://siteoforigin:,,,/Resources/icon.ico" WindowStyle="SingleBorderWindow"  BorderThickness="0" BorderBrush="Azure">
     <Window.Resources>
+
+        <Style x:Key="TriggerCheck" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=EnableSendSMS}" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
         <ImageBrush x:Key="BackgroundImageOp03" Opacity="0.3" ImageSource="Resources\calendar.png"/>
         <ImageBrush x:Key="BackgroundImageOp05" Opacity="0.5" ImageSource="Resources\calendar.png"/>
         
@@ -472,13 +480,51 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Макс.разброс мин." VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0" ></TextBlock>
-                        <TextBox Grid.Column="1" Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0" MaxLength="2" TextAlignment="Center" Text="{Binding Path=RandomInterval, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        
+                        <StackPanel Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                            
+                            <Border Width="84" Height="20" BorderBrush="#FF767676" BorderThickness="0,1,0,1" >
+                                <TextBox Grid.Column="1" Height="20" VerticalAlignment="Top" MaxLength="2" TextAlignment="Right" Text="{Binding Path=RandomInterval, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                            </Border>
+                            <StackPanel Width="16" Orientation="Vertical">
+
+                                <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeUpMaxRandom}" Template="{StaticResource ButtonUpDownTempate}">
+                                    <TextBlock Text="▲" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA" />
+                                </Button>
+
+                                <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeDownMaxRandom}" Template="{StaticResource ButtonUpDownTempate}">
+                                    <TextBlock Text="▼" FontSize="5" TextAlignment="Center" Foreground="#FF1582AA"/>
+                                </Button>
+
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
-                    <Grid>
+                    <Grid Margin="20,30,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="ChekEnableSMS" IsChecked="{Binding EnableSendSMS}"/>
+                            <TextBlock Margin="10,0,0,0" Text="Отправлять SMS уведомления"/>
+                        </StackPanel>
+                       
+                    </Grid>
+                    <Grid Margin="20,10,20,0" Opacity="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+
+                        <TextBlock Name="LabelTelephone" Grid.Column="0" Text="Номер телефона:" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource TriggerCheck}"/>
+                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}"/>
+                        
+             
+
+                    </Grid>
+                    <Grid Margin="20,10,20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="id пользователя sms.ru:" VerticalAlignment="Top" HorizontalAlignment="Left"  Style="{StaticResource TriggerCheck}"/>
+                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}"/>
                     </Grid>
                     <Grid Margin="0,100,0,0">
                         <Grid.ColumnDefinitions>

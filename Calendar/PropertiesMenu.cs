@@ -146,6 +146,36 @@ namespace Calendar
         }
 
 
+        public MyCommand ChangeUpMaxRandom
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    RandomInterval = (Convert.ToInt32(RandomInterval) +1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(RandomInterval) < 30; 
+                });
+            }
+        }
+        public MyCommand ChangeDownMaxRandom
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    RandomInterval = (Convert.ToInt32(RandomInterval) -1).ToString();
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(RandomInterval) > 0; 
+                });
+            }
+        }
+
+
         public String _RandomInterval = Properties.Settings.Default.MaxTimeSpread.Minutes.ToString();
         public String RandomInterval
         {
@@ -319,6 +349,19 @@ namespace Calendar
                 }
             }
         }
+        public bool _EnableSendSMS = Properties.Settings.Default.EnableSendSMS;
+        public bool EnableSendSMS
+        {
+            get { return _EnableSendSMS; }
+            set 
+            {
+                Properties.Settings.Default.EnableSendSMS = value;
+                Properties.Settings.Default.Save();
+               _EnableSendSMS = value;
+                OnPropertyChanged("EnableSendSMS");
+            }
+        }
+
 
         public PropertiesMenu() 
         { 
