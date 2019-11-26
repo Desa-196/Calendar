@@ -36,7 +36,7 @@ namespace Calendar
             {
                 return new MyCommand((obj) =>
                 {
-                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)+1).ToString();
+                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)+1).ToString("00");
                 },
                 (obj) =>
                 {
@@ -50,7 +50,7 @@ namespace Calendar
             {
                 return new MyCommand((obj) =>
                 {
-                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)-1).ToString();
+                    TimeToArrivalHH = (Convert.ToInt32(TimeToArrivalHH)-1).ToString("00");
                 },
                 (obj) =>
                 {
@@ -64,7 +64,7 @@ namespace Calendar
             {
                 return new MyCommand((obj) =>
                 {
-                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)+1).ToString();
+                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)+1).ToString("00");
                 },
                 (obj) =>
                 {
@@ -78,11 +78,69 @@ namespace Calendar
             {
                 return new MyCommand((obj) =>
                 {
-                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)-1).ToString();
+                    TimeToArrivalMM = (Convert.ToInt32(TimeToArrivalMM)-1).ToString("00");
                 },
                 (obj) =>
                 {
                     return Convert.ToInt32(TimeToArrivalMM) > 0; 
+                });
+            }
+        }
+
+
+        public MyCommand ChangeUpTimeToLiavingHH 
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToLiavingHH = (Convert.ToInt32(TimeToLiavingHH) +1).ToString("00");
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToLiavingHH) < 23; 
+                });
+            }
+        }
+        public MyCommand ChangeDownTimeToLiavingHH
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToLiavingHH = (Convert.ToInt32(TimeToLiavingHH) -1).ToString("00");
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToLiavingHH) > 0; 
+                });
+            }
+        }
+        public MyCommand ChangeUpTimeToLiavingMM 
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToLiavingMM = (Convert.ToInt32(TimeToLiavingMM) +1).ToString("00");
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToLiavingMM) < 59; 
+                });
+            }
+        }
+        public MyCommand ChangeDownTimeToLiavingMM
+        {
+            get 
+            {
+                return new MyCommand((obj) =>
+                {
+                    TimeToLiavingMM = (Convert.ToInt32(TimeToLiavingMM) -1).ToString("00");
+                },
+                (obj) =>
+                {
+                    return Convert.ToInt32(TimeToLiavingMM) > 0; 
                 });
             }
         }
