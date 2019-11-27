@@ -113,6 +113,7 @@
     <Compile Include="MyCommand.cs" />
     <Compile Include="NowDay.cs" />
     <Compile Include="PropertiesMenu.cs" />
+    <Compile Include="SenderSMS.cs" />
     <Compile Include="SQLConnector.cs" />
     <Compile Include="ViewModelCalendar.cs" />
     <Page Include="MainWindow.xaml">

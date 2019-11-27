@@ -26,8 +26,8 @@
     <Setting Name="TelephoneNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)">89036210703</Value>
     </Setting>
-    <Setting Name="Id_SMS_RU" Type="System.String" Scope="User">
-      <Value Profile="(Default)">4F0586E6-7FD1-1843-38EE-CEF5825D5B2F</Value>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1963053trmmsaL</Value>
     </Setting>
   </Settings>
 </SettingsFile>

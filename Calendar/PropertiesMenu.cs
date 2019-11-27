@@ -11,6 +11,37 @@ namespace Calendar
     {
 
         public bool isChange = false;
+        private bool IsRunTest = true;
+
+
+        public MyCommand TestSMS
+        {
+            get
+            {
+                return new MyCommand((obj) =>
+                {
+
+                    int status = SenderSMS.CheckLoginPassword(TelephoneNumber, Password);
+
+                    if (status == 1)
+                    {
+                        System.Windows.MessageBox.Show("Логин/Пароль подтверждены");
+                    }
+                    else if (status == 2)
+                    {
+                        System.Windows.MessageBox.Show("Неверный логин или пароль.\nНастройки SMS рассылки не будут сохранены.");
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Ошибка подключения к серверу SMS.RU.\nНастройки SMS рассылки не будут сохранены.");
+                    }
+                },
+                (obj) =>
+                {
+                    return IsRunTest;
+                });
+            }
+        }
 
         public MyCommand SaveSettings 
         {
@@ -20,6 +51,14 @@ namespace Calendar
                 {
                     isChange = false;
                     Properties.Settings.Default.WorkDay = WorkDay;
+                    Properties.Settings.Default.TimeToArrival = new TimeSpan(Convert.ToInt32(TimeToArrivalHH), Convert.ToInt32(TimeToArrivalMM), 0);
+                    Properties.Settings.Default.LiavingTime = new TimeSpan(Convert.ToInt32(TimeToLiavingHH), Convert.ToInt32(TimeToLiavingMM), 0);
+                    Properties.Settings.Default.MaxTimeSpread = new TimeSpan(0, Convert.ToInt32(RandomInterval), 0);
+                    
+                    Properties.Settings.Default.TelephoneNumber = TelephoneNumber;
+                    Properties.Settings.Default.Password = PasswordSave;
+
+                    Properties.Settings.Default.EnableSendSMS = EnableSendSMS;
                     Properties.Settings.Default.Save();
                     CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
                     CalculationData.nowDayObject.NewDayRegistration();
@@ -355,10 +394,40 @@ namespace Calendar
             get { return _EnableSendSMS; }
             set 
             {
-                Properties.Settings.Default.EnableSendSMS = value;
-                Properties.Settings.Default.Save();
-               _EnableSendSMS = value;
+                isChange = true;
+                _EnableSendSMS = value;
                 OnPropertyChanged("EnableSendSMS");
+            }
+        }
+
+       
+        
+        public string _TelephoneNumber = Properties.Settings.Default.TelephoneNumber;
+        public string TelephoneNumber
+        {
+            get { return _TelephoneNumber; }
+            set
+            {
+                isChange = true;
+                _TelephoneNumber = value;
+                OnPropertyChanged("TelephoneNumber");
+            }
+        }
+        private string PasswordSave;
+
+        public string _Password = Properties.Settings.Default.Password;
+
+        public string Password
+        {
+            get 
+            {
+                return _Password; 
+            }
+            set
+            {
+                isChange = true;
+                _Password = value;
+                OnPropertyChanged("Password");
             }
         }
 

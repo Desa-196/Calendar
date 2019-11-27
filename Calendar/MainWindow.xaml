@@ -513,7 +513,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Name="LabelTelephone" Grid.Column="0" Text="Номер телефона:" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource TriggerCheck}"/>
-                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}"/>
+                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding TelephoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
                         
              
 
@@ -523,9 +523,17 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="id пользователя sms.ru:" VerticalAlignment="Top" HorizontalAlignment="Left"  Style="{StaticResource TriggerCheck}"/>
-                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}"/>
+                        <TextBlock Grid.Column="0" Text="Пароль от SMS.RU" VerticalAlignment="Top" HorizontalAlignment="Left"  Style="{StaticResource TriggerCheck}"/>
+                        <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" Content="Тест соединения" Command="{Binding Path=TestSMS}" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" />
+                    </Grid>
+                    
                     <Grid Margin="0,100,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>

@@ -121,13 +121,13 @@ namespace Calendar.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4F0586E6-7FD1-1843-38EE-CEF5825D5B2F")]
-        public string Id_SMS_RU {
+        [global::System.Configuration.DefaultSettingValueAttribute("1963053trmmsaL")]
+        public string Password {
             get {
-                return ((string)(this["Id_SMS_RU"]));
+                return ((string)(this["Password"]));
             }
             set {
-                this["Id_SMS_RU"] = value;
+                this["Password"] = value;
             }
         }
     }
