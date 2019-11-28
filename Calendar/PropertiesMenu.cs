@@ -21,20 +21,20 @@ namespace Calendar
                 return new MyCommand((obj) =>
                 {
 
-                    int status = SenderSMS.CheckLoginPassword(TelephoneNumber, Password);
+                    LabelErrorSMS = SenderSMS.CheckLoginPassword(TelephoneNumber, Password);
 
-                    if (status == 1)
-                    {
-                        System.Windows.MessageBox.Show("Логин/Пароль подтверждены");
-                    }
-                    else if (status == 2)
-                    {
-                        System.Windows.MessageBox.Show("Неверный логин или пароль.\nНастройки SMS рассылки не будут сохранены.");
-                    }
-                    else
-                    {
-                        System.Windows.MessageBox.Show("Ошибка подключения к серверу SMS.RU.\nНастройки SMS рассылки не будут сохранены.");
-                    }
+                    //if (status == 1)
+                    //{
+                    //    LabelErrorSMS = "Логин/Пароль подтверждены";
+                    //}
+                    //else if (status == 2)
+                    //{
+                    //    LabelErrorSMS = "Неверный логин или пароль.\nНастройки SMS рассылки не будут сохранены.";
+                    //}
+                    //else
+                    //{
+                    //    LabelErrorSMS = "Ошибка подключения к серверу SMS.RU.\nНастройки SMS рассылки не будут сохранены.";
+                    //}
                 },
                 (obj) =>
                 {
@@ -428,6 +428,19 @@ namespace Calendar
                 isChange = true;
                 _Password = value;
                 OnPropertyChanged("Password");
+            }
+        }
+        public int _LabelErrorSMS = 3;
+        public int LabelErrorSMS
+        {
+            get 
+            {
+                return _LabelErrorSMS; 
+            }
+            set
+            {
+                _LabelErrorSMS = value;
+                OnPropertyChanged("LabelErrorSMS");
             }
         }
 

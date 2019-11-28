@@ -21,7 +21,6 @@ namespace Calendar
             string line;
 
             request = WebRequest.Create("https://sms.ru/auth/check?login="+login+"&password="+password+"&json=0");
-            System.Windows.MessageBox.Show("https://sms.ru/auth/check?login=" + login + "&password=" + password + "&json=0");
 
             try
             {

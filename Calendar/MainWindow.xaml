@@ -15,6 +15,23 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ErrorTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TriggerCheck}">
+            <Setter Property="Text" Value="">
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="1">
+                    <Setter Property="Text" Value="Логин/Пароль подтверждены"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="0">
+                    <Setter Property="Text" Value="Ошибка подключения к серверу SMS.RU.\nНастройки SMS рассылки не будут сохранены."/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="2">
+                    <Setter Property="Text" Value="Неверный логин или пароль.\nНастройки SMS рассылки не будут сохранены."/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <ImageBrush x:Key="BackgroundImageOp03" Opacity="0.3" ImageSource="Resources\calendar.png"/>
         <ImageBrush x:Key="BackgroundImageOp05" Opacity="0.5" ImageSource="Resources\calendar.png"/>
         
@@ -526,12 +543,15 @@
                         <TextBlock Grid.Column="0" Text="Пароль от SMS.RU" VerticalAlignment="Top" HorizontalAlignment="Left"  Style="{StaticResource TriggerCheck}"/>
                         <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
-                    <Grid Margin="0,10,0,0">
+
+                    <TextBlock  Margin="20,0,0,0"  VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource ErrorTextBlock}"/>
+
+                    <Grid Margin="20,10,20,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" Content="Тест соединения" Command="{Binding Path=TestSMS}" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" />
+                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" HorizontalAlignment="Right" Content="Тест соединения" Command="{Binding Path=TestSMS}" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" />
                     </Grid>
                     
                     <Grid Margin="0,100,0,0">
