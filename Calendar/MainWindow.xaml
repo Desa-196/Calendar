@@ -16,7 +16,40 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ErrorTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TriggerCheck}">
+        <Style x:Key="ErrorTextBlockBorder" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="1">
+                    <Setter Property="Background" Value="Green"/>
+                    <Setter Property="BorderBrush" Value="Green"/>
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty ="Height">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="30"/>
+                                    
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="0">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="BorderBrush" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="2">
+                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="BorderBrush" Value="Red"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ErrorTextBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="Text" Value=""/>
             <Setter Property="Foreground" Value="Red"/>
             <Style.Triggers>
@@ -25,15 +58,16 @@
                     <Setter Property="Foreground" Value="Green"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="0">
-                    <Setter Property="Text" Value="Ошибка подключения к серверу SMS.RU. Настройки SMS рассылки не будут сохранены."/>
+                    <Setter Property="Text" Value="Ошибка подключения к серверу SMS.RU."/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=LabelErrorSMS}" Value="2">
-                    <Setter Property="Text" Value="Неверный логин или пароль. Настройки SMS рассылки не будут сохранены."/>
+                    <Setter Property="Text" Value="Неверный логин или пароль."/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
-        <ImageBrush x:Key="BackgroundImageOp03" Opacity="0.3" ImageSource="Resources\calendar.png"/>
+
+
+                <ImageBrush x:Key="BackgroundImageOp03" Opacity="0.3" ImageSource="Resources\calendar.png"/>
         <ImageBrush x:Key="BackgroundImageOp05" Opacity="0.5" ImageSource="Resources\calendar.png"/>
         
         <ControlTemplate x:Key="ButtonUpDownTempate" TargetType="Button">
@@ -532,10 +566,8 @@
 
                         <TextBlock Name="LabelTelephone" Grid.Column="0" Text="Номер телефона:" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource TriggerCheck}"/>
                         <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding TelephoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
-                        
-             
-
                     </Grid>
+                    
                     <Grid Margin="20,10,20,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -545,9 +577,11 @@
                         <TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
 
-                    <Border Margin="20,10,20,0" BorderThickness="1" BorderBrush="#FF005D11" Padding="5">
-                        <TextBlock  TextWrapping="Wrap"  VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource ErrorTextBlock}"/>
+
+                    <Border Margin="20,10,20,0" Width="260" BorderThickness="1" Padding="5" HorizontalAlignment="Center" CornerRadius="3" Style="{StaticResource ErrorTextBlockBorder}">
+                        <TextBlock TextAlignment="Center"  TextWrapping="Wrap"  VerticalAlignment="Top"  Style="{StaticResource ErrorTextBlock}" Foreground="White"/>
                     </Border>
+                    
                     
                     <Grid Margin="20,10,20,0">
                         <Grid.ColumnDefinitions>
