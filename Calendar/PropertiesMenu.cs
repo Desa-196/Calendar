@@ -56,7 +56,7 @@ namespace Calendar
                     Properties.Settings.Default.MaxTimeSpread = new TimeSpan(0, Convert.ToInt32(RandomInterval), 0);
                     
                     Properties.Settings.Default.TelephoneNumber = TelephoneNumber;
-                    Properties.Settings.Default.Password = PasswordSave;
+                    Properties.Settings.Default.Password = Password;
 
                     Properties.Settings.Default.EnableSendSMS = EnableSendSMS;
                     Properties.Settings.Default.Save();
