@@ -4,16 +4,45 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Calendar
 {
     public class PropertiesMenu: INotifyPropertyChanged
     {
 
+
         public bool isChange = false;
         private bool IsRunTest = true;
 
+        public bool _LabelErrorSMSStartAnimations = false;
+        public bool LabelErrorSMSStartAnimations
+        {
+            get { return _LabelErrorSMSStartAnimations; }
+            set 
+            {
+                _LabelErrorSMSStartAnimations = value;
+                OnPropertyChanged("LabelErrorSMSStartAnimations");
+            }
+        }
 
+
+        public MyCommand PasswordChange
+        {
+            get
+            {
+                return new MyCommand((obj) =>
+                {
+
+                    isChange = true;
+
+                },
+                (obj) =>
+                {
+                    return true;
+                });
+            }
+        }
         public MyCommand TestSMS
         {
             get
@@ -22,19 +51,9 @@ namespace Calendar
                 {
 
                     LabelErrorSMS = SenderSMS.CheckLoginPassword(TelephoneNumber, Password);
+                    LabelErrorSMSStartAnimations = true;
+                    LabelErrorSMSStartAnimations = false;
 
-                    //if (status == 1)
-                    //{
-                    //    LabelErrorSMS = "Логин/Пароль подтверждены";
-                    //}
-                    //else if (status == 2)
-                    //{
-                    //    LabelErrorSMS = "Неверный логин или пароль.\nНастройки SMS рассылки не будут сохранены.";
-                    //}
-                    //else
-                    //{
-                    //    LabelErrorSMS = "Ошибка подключения к серверу SMS.RU.\nНастройки SMS рассылки не будут сохранены.";
-                    //}
                 },
                 (obj) =>
                 {
@@ -42,6 +61,7 @@ namespace Calendar
                 });
             }
         }
+        
 
         public MyCommand SaveSettings 
         {
@@ -413,7 +433,6 @@ namespace Calendar
                 OnPropertyChanged("TelephoneNumber");
             }
         }
-        private string PasswordSave;
 
         public string _Password = Properties.Settings.Default.Password;
 
