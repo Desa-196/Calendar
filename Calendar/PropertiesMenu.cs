@@ -43,6 +43,24 @@ namespace Calendar
                 });
             }
         }
+        public MyCommand AddPassword
+        {
+            get
+            {
+                return new MyCommand((obj) =>
+                {
+
+                    ((PasswordBox)obj).Password = Encription.EncryptOrDecrypt(Properties.Settings.Default.Password);
+                    isChange = false;
+
+                },
+                (obj) =>
+                {
+                    return true;
+                });
+            }
+        }
+
         public MyCommand TestSMS
         {
             get
@@ -50,7 +68,7 @@ namespace Calendar
                 return new MyCommand((obj) =>
                 {
 
-                    LabelErrorSMS = SenderSMS.CheckLoginPassword(TelephoneNumber, Password);
+                    LabelErrorSMS = SenderSMS.CheckLoginPassword(TelephoneNumber, ((PasswordBox)obj).Password );
                     LabelErrorSMSStartAnimations = true;
                     LabelErrorSMSStartAnimations = false;
 
@@ -76,10 +94,11 @@ namespace Calendar
                     Properties.Settings.Default.MaxTimeSpread = new TimeSpan(0, Convert.ToInt32(RandomInterval), 0);
                     
                     Properties.Settings.Default.TelephoneNumber = TelephoneNumber;
-                    Properties.Settings.Default.Password = Password;
+                    Properties.Settings.Default.Password = Encription.EncryptOrDecrypt(((PasswordBox)obj).Password);
 
                     Properties.Settings.Default.EnableSendSMS = EnableSendSMS;
                     Properties.Settings.Default.Save();
+
                     CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
                     CalculationData.nowDayObject.NewDayRegistration();
                 },

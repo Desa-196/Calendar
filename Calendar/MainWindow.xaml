@@ -584,10 +584,13 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Пароль от SMS.RU" VerticalAlignment="Top" HorizontalAlignment="Left"  Style="{StaticResource TriggerCheck}"/>
                         <!--<TextBox Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>-->
-                        <PasswordBox  Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right">
+                        <PasswordBox x:Name="PassBox"  Grid.Column="1" Height="20" Width="100" HorizontalAlignment="Right" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding PasswordChange}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding AddPassword}" CommandParameter="{Binding ElementName=PassBox}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </PasswordBox>
@@ -600,7 +603,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" HorizontalAlignment="Right" Content="Тест соединения" Command="{Binding Path=TestSMS}" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" />
+                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" HorizontalAlignment="Right" Content="Тест соединения" Command="{Binding Path=TestSMS}" CommandParameter="{Binding ElementName=PassBox}" IsEnabled="{Binding ElementName=ChekEnableSMS, Path=IsChecked}" />
                     </Grid>
                     
                     <Grid Margin="0,100,0,0">
@@ -608,7 +611,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" Content="Сохранить" Click="Button_Click_Save_Settings" Command="{Binding Path=SaveSettings}"/>
+                        <Button Grid.Column="1" Margin="10,0,0,0" Width="100" Content="Сохранить" Click="Button_Click_Save_Settings" Command="{Binding Path=SaveSettings}" CommandParameter="{Binding ElementName=PassBox}"/>
                     </Grid>
                 </StackPanel>
 

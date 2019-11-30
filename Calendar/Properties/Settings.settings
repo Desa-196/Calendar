@@ -27,7 +27,7 @@
       <Value Profile="(Default)">89036210703</Value>
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1963053trmmsaL</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
