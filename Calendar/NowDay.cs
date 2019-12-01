@@ -40,16 +40,13 @@ namespace Calendar
 
         public NowDay(DateTime data_index) : base(data_index)
         {
+            
             Data_index = data_index;
             Text_block_1_opacity = 1;
             Text_block_2_opacity = 1;
 
             timer = new Thread(start_auto_update);
             timer.IsBackground = true;
-            if (IsStart) 
-            {
-                timer.Start();
-            }
 
         }
     public double Text_block_1_opacity
@@ -102,7 +99,8 @@ namespace Calendar
         {
             while (true)
             {
-                if (CalculationData.is_work(Data_index) && Type_day != 1) { 
+                if (CalculationData.is_work(Data_index) && Type_day != 1)
+                {
                     //Если в массиве логов нет лога за текущую дату, значит ещё не отмечали приход
                     if (!SQLConnector.Log_Exist(data_index.Date))
                     {
@@ -173,6 +171,10 @@ namespace Calendar
                         Text_block_2 = SQLConnector.get_log_liaving_time(Data_index.Date);
                         ViewProgressBar = false;
                     }
+                }
+                else
+                {
+                    Thread.Sleep(200);
                 }
 
             }

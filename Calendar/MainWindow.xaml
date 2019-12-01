@@ -177,8 +177,6 @@
                     <Setter TargetName="type_day" Property="Text" Value="Выходной" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Green" />
                     <Setter TargetName="Border" Property="Control.Background" Value="#FFE4F0EF" />
-                    <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
-                    <Setter TargetName="Leaving_time" Property="Text" Value="" />
                     <Setter TargetName="Border" Property="BorderBrush" Value="#FFE4F0EF" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=Is_now_day}" Value="true">
@@ -240,18 +238,69 @@
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Width="15" Height="20" HorizontalAlignment="Left" Margin="5,0,0,0" Click="Button_Click_Start_Stop">
+                        <Button Width="15" Height="20" HorizontalAlignment="Left" Margin="5,0,0,0" Click="Button_Click_Start_Stop" >
                             <Button.Template>
                                 <ControlTemplate>
-                                    <Polygon x:Name="IconPlayStop"  Fill="#87aac1" Points="2,4, 13,10, 2,16" ToolTip="Запустить регистрацию"/>
+                                    <Grid x:Name="GridButton" ToolTip="Запустить регистрацию">
+                                        <Polygon x:Name="IconPlayStop"  Fill="#87aac1" Points="2,4, 13,10, 2,16" />
+                                        <Polygon x:Name="load1" Fill="#FFE0E9F0" Points="4,6, 5,6, 5,14, 4,14" Opacity="0"/>
+                                        <Polygon x:Name="load2" Fill="#FFE0E9F0" Points="6,6, 7,6, 7,14, 6,14" Opacity="0"/>
+                                        <Polygon x:Name="load3" Fill="#FFE0E9F0" Points="8,6, 9,6, 9,14, 8,14" Opacity="0"/>
+                                        <Polygon x:Name="load4" Fill="#FFE0E9F0" Points="10,6, 11,6, 11,14, 10,14" Opacity="0"/>
+                                    </Grid>
+                                    
                                     <ControlTemplate.Triggers>
+                                        
                                         <DataTrigger Binding="{Binding Path=IsStart}" Value="true">
                                             <Setter TargetName="IconPlayStop"  Property="Points" Value="2,4, 13,4, 13,16, 2,16"/>
-                                            <Setter TargetName="IconPlayStop" Property="ToolTip" Value="Остановить регистрацию"/>
+                                            <Setter TargetName="GridButton" Property="ToolTip" Value="Остановить регистрацию"/>
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard x:Name="AnimationsStartTimer">
+                                                    <Storyboard  RepeatBehavior="Forever" SpeedRatio="2">
+                                                        <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="load1" Storyboard.TargetProperty ="Opacity">
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load2" Storyboard.TargetProperty ="Opacity">
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load3" Storyboard.TargetProperty ="Opacity">
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load4" Storyboard.TargetProperty ="Opacity">
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsStart}" Value="false">
+                                            
+                                            <DataTrigger.EnterActions>
+                     
+                                                    <StopStoryboard BeginStoryboardName="AnimationsStartTimer"/>
+                                             
+                                            </DataTrigger.EnterActions>
                                         </DataTrigger>
                                         <Trigger Property="IsMouseOver" Value="true">
                                             <!--<Setter TargetName="ButtonPlayStop" Property="BorderThickness" Value="2"></Setter>-->
                                             <Setter TargetName="IconPlayStop" Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="load1" Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="load2" Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="load3" Property="Cursor" Value="Hand"></Setter>
+                                            <Setter TargetName="load4" Property="Cursor" Value="Hand"></Setter>
                                             <Setter TargetName="IconPlayStop" Property="Fill" Value="#FF326568"></Setter>
                                         </Trigger>
                                         <!--<Trigger Property="IsPressed"  Value="true">-->
@@ -273,9 +322,6 @@
                     <Setter TargetName="type_day" Property="Text" Value="Выходной" />
                     <Setter TargetName="type_day" Property="Foreground" Value="Green" />
                     <Setter TargetName="Border" Property="Background" Value="#FFF3FBFB" />
-
-                    <Setter TargetName="Time_of_arrival" Property="Text" Value="" />
-                    <Setter TargetName="Leaving_time" Property="Text" Value="" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=IsWork}" Value="true">
                     <Setter TargetName="type_day" Property="Text" Value="Рабочий" />
@@ -391,6 +437,9 @@
             </ListBox>
         </Grid>
         <Grid  x:Name="SittingGrid"  Width="400" HorizontalAlignment="Left">
+            <Grid.Effect>
+                <DropShadowEffect Opacity="0.4" BlurRadius="30"/>
+            </Grid.Effect>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>

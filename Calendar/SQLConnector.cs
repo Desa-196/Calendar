@@ -55,6 +55,8 @@ namespace Calendar
             int unixTime = (int)(day - new DateTime(1970, 1, 1)).TotalSeconds;
             SQLiteCommand command = new SQLiteCommand(@"select * from Date date LEFT JOIN Log l ON date.id = l.Date_id WHERE date.date = " + unixTime + " and l.Type = '0';", Connect);
 
+            //System.Windows.MessageBox.Show(day+"\n"+@"select * from Date date LEFT JOIN Log l ON date.id = l.Date_id WHERE date.date = " + unixTime + " and l.Type = '0';");
+
             SQLiteDataReader read = command.ExecuteReader();
             if (read.Read())
             {

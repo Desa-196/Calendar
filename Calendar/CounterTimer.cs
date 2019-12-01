@@ -33,7 +33,7 @@ namespace Calendar
             {
                 while (true)
                 {
-                    //Если изменилос оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
+                    //Если изменилось оставшееся время в секундах, такая сложная конструкция, чтобы окрулить до секунды.
                     if ((int)((TimeToEndOfACounter - DateTime.Now.TimeOfDay).TotalSeconds) != IntervalCounter.TotalSeconds)
                     {
                         ObjectNowDay.ViewProgressBar = true;

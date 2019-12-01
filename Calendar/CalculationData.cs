@@ -190,8 +190,9 @@ namespace Calendar
                 array_objects_days.Add(new Day( new DateTime(old_year, old_month, i + day_in_old_month - day_of_the_week + 2) ));
                 array_objects_days[i].day_is_now_month = false;
 
-                array_objects_days[i].Text_block_1 = Registration.get_time_arrival_from_day ( new DateTime(old_year, old_month, i + day_in_old_month - day_of_the_week + 2) );
-                array_objects_days[i].Text_block_2 = Registration.get_liaving_time_from_day( new DateTime(old_year, old_month, i + day_in_old_month - day_of_the_week + 2) );
+                array_objects_days[i].Text_block_1 = SQLConnector.get_log_arrival_time( new DateTime(old_year, old_month, i + day_in_old_month - day_of_the_week + 2) );
+                array_objects_days[i].Text_block_2 = SQLConnector.get_log_liaving_time(new DateTime(old_year, old_month, i + day_in_old_month - day_of_the_week + 2) );
+
 
                 if (array_objects_days[i].Data_index.Date > DateTime.Now.Date) 
                 {
@@ -227,7 +228,12 @@ namespace Calendar
                     nowDayObject.ViewProgressBar = false;
                     nowDayObject.Type_day = SQLConnector.GetTypeDay(nowDayObject.Data_index);
                     array_objects_days.Add(nowDayObject);
-                        
+
+                    if (nowDayObject.IsStart) nowDayObject.NewDayRegistration();
+
+                    array_objects_days[i].Text_block_1 = SQLConnector.get_log_arrival_time(new DateTime(year, month, d));
+                    array_objects_days[i].Text_block_2 = SQLConnector.get_log_liaving_time(new DateTime(year, month, d));
+
                 }
                 else 
                 {
