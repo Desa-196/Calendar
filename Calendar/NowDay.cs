@@ -45,8 +45,6 @@ namespace Calendar
             Text_block_1_opacity = 1;
             Text_block_2_opacity = 1;
 
-            timer = new Thread(start_auto_update);
-            timer.IsBackground = true;
 
         }
     public double Text_block_1_opacity
@@ -69,7 +67,7 @@ namespace Calendar
         }
         public void StartTimerRegistration() 
         {
-            if (timer.IsAlive) timer.Abort();
+            if (timer != null) timer.Abort();
 
             timer = new Thread(start_auto_update);
             timer.IsBackground = true;
@@ -86,7 +84,10 @@ namespace Calendar
         {
             if (IsStart)
             {
-                timer.Abort();
+                if (timer != null)
+                {
+                    timer.Abort();
+                }
                 timer = new Thread(start_auto_update);
                 timer.IsBackground = true;
                 timer.Start();

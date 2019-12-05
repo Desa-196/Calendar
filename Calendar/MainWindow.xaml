@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:Calendar"
         mc:Ignorable="d"
@@ -19,6 +20,38 @@
 
         
 
+        <Style x:Key="ErrorValueArrivalAndLiavingTime" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ErrorValueArrivalAndLiavingTime}" Value="true">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Height">
+                                <DoubleAnimation
+                                    To="40"
+                                    Duration="0:0:0.5"
+                                />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Height">
+                                <DoubleAnimation
+                                    To="0"
+                                    Duration="0:0:0.5"
+                                />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                
+                
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="ErrorTextBlockBorder" TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Background" Value="White"/>
@@ -52,7 +85,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ErrorTextBlock" TargetType="{x:Type TextBlock}">
+        <Style x:Key="ErrorTextBlock" TargetType="TextBlock">
             <Setter Property="Text" Value=""/>
             <Setter Property="Foreground" Value="Red"/>
             <Style.Triggers>
@@ -243,10 +276,7 @@
                                 <ControlTemplate>
                                     <Grid x:Name="GridButton" ToolTip="Запустить регистрацию">
                                         <Polygon x:Name="IconPlayStop"  Fill="#87aac1" Points="2,4, 13,10, 2,16" />
-                                        <Polygon x:Name="load1" Fill="#FFE0E9F0" Points="4,6, 5,6, 5,14, 4,14" Opacity="0"/>
-                                        <Polygon x:Name="load2" Fill="#FFE0E9F0" Points="6,6, 7,6, 7,14, 6,14" Opacity="0"/>
-                                        <Polygon x:Name="load3" Fill="#FFE0E9F0" Points="8,6, 9,6, 9,14, 8,14" Opacity="0"/>
-                                        <Polygon x:Name="load4" Fill="#FFE0E9F0" Points="10,6, 11,6, 11,14, 10,14" Opacity="0"/>
+                                        <Image x:Name="animations" gif:ImageBehavior.AnimatedSource="Resources\button_timer_start_animations.gif" Height="9" Width="9" Margin="1"/>
                                     </Grid>
                                     
                                     <ControlTemplate.Triggers>
@@ -254,54 +284,16 @@
                                         <DataTrigger Binding="{Binding Path=IsStart}" Value="true">
                                             <Setter TargetName="IconPlayStop"  Property="Points" Value="2,4, 13,4, 13,16, 2,16"/>
                                             <Setter TargetName="GridButton" Property="ToolTip" Value="Остановить регистрацию"/>
-                                            <DataTrigger.EnterActions>
-                                                <BeginStoryboard x:Name="AnimationsStartTimer">
-                                                    <Storyboard  RepeatBehavior="Forever" SpeedRatio="2">
-                                                        <DoubleAnimationUsingKeyFrames  Storyboard.TargetName="load1" Storyboard.TargetProperty ="Opacity">
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load2" Storyboard.TargetProperty ="Opacity">
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load3" Storyboard.TargetProperty ="Opacity">
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="load4" Storyboard.TargetProperty ="Opacity">
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
-                                                            <LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </DataTrigger.EnterActions>
+                                            
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsStart}" Value="false">
-                                            
-                                            <DataTrigger.EnterActions>
-                     
-                                                    <StopStoryboard BeginStoryboardName="AnimationsStartTimer"/>
-                                             
-                                            </DataTrigger.EnterActions>
+                                            <Setter TargetName="animations" Property="Opacity" Value="0"/>
                                         </DataTrigger>
                                         <Trigger Property="IsMouseOver" Value="true">
                                             <!--<Setter TargetName="ButtonPlayStop" Property="BorderThickness" Value="2"></Setter>-->
                                             <Setter TargetName="IconPlayStop" Property="Cursor" Value="Hand"></Setter>
-                                            <Setter TargetName="load1" Property="Cursor" Value="Hand"></Setter>
-                                            <Setter TargetName="load2" Property="Cursor" Value="Hand"></Setter>
-                                            <Setter TargetName="load3" Property="Cursor" Value="Hand"></Setter>
-                                            <Setter TargetName="load4" Property="Cursor" Value="Hand"></Setter>
                                             <Setter TargetName="IconPlayStop" Property="Fill" Value="#FF326568"></Setter>
+                                            <Setter TargetName="animations" Property="Cursor" Value="Hand"></Setter>
                                         </Trigger>
                                         <!--<Trigger Property="IsPressed"  Value="true">-->
                                         <!--<Setter TargetName="ButtonPlayStop" Property="Background" Value="#FFE2E2E2"></Setter>-->
@@ -500,6 +492,7 @@
                         <TextBlock Grid.Column="0" Text="Дата рабочего дня" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,23,0,0"></TextBlock>
                         <DatePicker Grid.Column="1"  VerticalAlignment="Top" Margin="10,20,0,0" Width="100" SelectedDate="{Binding WorkDay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
+                    
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -540,13 +533,19 @@
                         </StackPanel>
 
                     </Grid>
+
+
+                    <Border Margin="20,5,20,5" Width="260" BorderThickness="1" Padding="5,1,5,1" HorizontalAlignment="Center" Background="Red" CornerRadius="3" Style="{StaticResource ErrorValueArrivalAndLiavingTime}">
+                        <TextBlock TextAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" Foreground="White" Text="Время прихода не может быть больше времени ухода"/>
+                    </Border>
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0"></TextBlock>
-                        <StackPanel Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Grid.Column="0" Text="Время ухода" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,0,0,0"></TextBlock>
+                        <StackPanel Grid.Column="1"  Width="100" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                             <StackPanel Width="16" Orientation="Vertical">
 
                                 <Button Height="10" Width="16" VerticalAlignment="Center" Command="{Binding ChangeUpTimeToLiavingHH}" Template="{StaticResource ButtonUpDownTempate}">

@@ -88,19 +88,32 @@ namespace Calendar
                 return new MyCommand((obj) =>
                 {
                     isChange = false;
-                    Properties.Settings.Default.WorkDay = WorkDay;
-                    Properties.Settings.Default.TimeToArrival = new TimeSpan(Convert.ToInt32(TimeToArrivalHH), Convert.ToInt32(TimeToArrivalMM), 0);
-                    Properties.Settings.Default.LiavingTime = new TimeSpan(Convert.ToInt32(TimeToLiavingHH), Convert.ToInt32(TimeToLiavingMM), 0);
-                    Properties.Settings.Default.MaxTimeSpread = new TimeSpan(0, Convert.ToInt32(RandomInterval), 0);
-                    
-                    Properties.Settings.Default.TelephoneNumber = TelephoneNumber;
-                    Properties.Settings.Default.Password = Encription.EncryptOrDecrypt(((PasswordBox)obj).Password);
 
-                    Properties.Settings.Default.EnableSendSMS = EnableSendSMS;
-                    Properties.Settings.Default.Save();
+                    TimeSpan TimeToArrivalSettings = new TimeSpan(Convert.ToInt32(TimeToArrivalHH), Convert.ToInt32(TimeToArrivalMM), 0);
+                    TimeSpan LiavingTimeSettings = new TimeSpan(Convert.ToInt32(TimeToLiavingHH), Convert.ToInt32(TimeToLiavingMM), 0);
 
-                    CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
-                    CalculationData.nowDayObject.NewDayRegistration();
+                    if (TimeToArrivalSettings <= LiavingTimeSettings)
+                    {
+                        ErrorValueArrivalAndLiavingTime = false;
+
+                        Properties.Settings.Default.WorkDay = WorkDay;
+                        Properties.Settings.Default.TimeToArrival = TimeToArrivalSettings;
+                        Properties.Settings.Default.LiavingTime = LiavingTimeSettings;
+                        Properties.Settings.Default.MaxTimeSpread = new TimeSpan(0, Convert.ToInt32(RandomInterval), 0);
+
+                        Properties.Settings.Default.TelephoneNumber = TelephoneNumber;
+                        Properties.Settings.Default.Password = Encription.EncryptOrDecrypt(((PasswordBox)obj).Password);
+
+                        Properties.Settings.Default.EnableSendSMS = EnableSendSMS;
+                        Properties.Settings.Default.Save();
+
+                        CalculationData.get_array_days(DateTime.Now.Year, DateTime.Now.Month);
+                        CalculationData.nowDayObject.NewDayRegistration();
+                    }
+                    else
+                    {
+                        ErrorValueArrivalAndLiavingTime = true;
+                    }
                 },
                 (obj) =>
                 {
@@ -253,6 +266,20 @@ namespace Calendar
             }
         }
 
+
+        public bool _ErrorValueArrivalAndLiavingTime = false;
+        public bool ErrorValueArrivalAndLiavingTime
+        {
+            get 
+            { 
+                return _ErrorValueArrivalAndLiavingTime; 
+            }
+            set 
+            {
+                _ErrorValueArrivalAndLiavingTime = value;
+                OnPropertyChanged("ErrorValueArrivalAndLiavingTime");
+            }
+        }
 
         public String _RandomInterval = Properties.Settings.Default.MaxTimeSpread.Minutes.ToString();
         public String RandomInterval
